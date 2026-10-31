@@ -1,0 +1,126 @@
+<?php require __DIR__ . '/../../private/seo.php'; $U = seo_base(); ?>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>サーフボードのフィンの種類とセッティング｜シングル・ツイン・トライ・クアッドの違い｜RIPSTIX</title>
+<meta name="description" content="シングル、ツイン、トライ（スラスター）、クアッド、2+1、5フィンなど、サーフボードのフィンセッティングの違いと、フィンの大きさ（ベース・デプス・スイープ）の見方を解説します。">
+<link rel="canonical" href="<?=$U?>column/surfboard-fin-setup/">
+<meta property="og:url" content="<?=$U?>column/surfboard-fin-setup/">
+<meta property="og:image" content="<?=$U?>ogp.jpg">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="RIPSTIX">
+<meta property="og:title" content="サーフボードのフィンの種類とセッティング｜シングル・ツイン・トライ・クアッドの違い｜RIPSTIX">
+<meta property="og:description" content="シングル、ツイン、トライ（スラスター）、クアッド、2+1、5フィンなど、サーフボードのフィンセッティングの違いと、フィンの大きさ（ベース・デプス・スイープ）の見方を解説します。">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0d2230">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../column/column.css">
+<script type="application/ld+json">[
+ {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "サーフボードのフィンの種類とセッティング｜シングル・ツイン・トライ・クアッドの違い",
+  "description": "シングル、ツイン、トライ（スラスター）、クアッド、2+1、5フィンなど、サーフボードのフィンセッティングの違いと、フィンの大きさ（ベース・デプス・スイープ）の見方を解説します。",
+  "datePublished": "2026-10-30",
+  "dateModified": "2026-10-30",
+  "author": {
+   "@type": "Organization",
+   "name": "RIPSTIX / SPLASH（株式会社LTR）"
+  },
+  "publisher": {
+   "@type": "Organization",
+   "name": "RIPSTIX / SPLASH",
+   "logo": {
+    "@type": "ImageObject",
+    "url": "<?=$U?>apple-touch-icon.png"
+   }
+  },
+  "image": "<?=$U?>ogp.jpg",
+  "mainEntityOfPage": "<?=$U?>column/surfboard-fin-setup/",
+  "inLanguage": "ja"
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+   {
+    "@type": "ListItem",
+    "position": 1,
+    "name": "トップ",
+    "item": "<?=$U?>"
+   },
+   {
+    "@type": "ListItem",
+    "position": 2,
+    "name": "コラム",
+    "item": "<?=$U?>column/"
+   },
+   {
+    "@type": "ListItem",
+    "position": 3,
+    "name": "フィンの種類とセッティング",
+    "item": "<?=$U?>column/surfboard-fin-setup/"
+   }
+  ]
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+   {
+    "@type": "Question",
+    "name": "フィンは何本がいいですか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "迷ったら3本（トライ）が最もオールラウンドです。小波で速さを求めるならツインやクアッド、ゆったり乗るならシングルや2+1が向いています。"
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "FCSとFUTURESのフィンは共通で使えますか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "取り付け方式が違うため、基本的に共通では使えません。ボードを作るときに、どちらの方式にするかを決めます。"
+    }
+   }
+  ]
+ }
+]</script></head>
+<body>
+<header class="ch"><a class="logo" href="../../">RIPSTIX<small>BY SPLASH · SHIRASUKA</small></a><nav><a href="../../column/">コラム</a><a href="../../#repair">修理</a><a class="cta" href="../../#builder">ボードをつくる</a></nav></header><main class="cw"><nav class="crumbs" aria-label="パンくずリスト"><a href="../../">トップ</a> › <a href="../../column/">コラム</a> › <span>フィンの種類とセッティング</span></nav><article><p class="cat">選び方</p><h1>サーフボードのフィンの種類とセッティング｜シングル・ツイン・トライ・クアッドの違い</h1><p class="meta"><time datetime="2026-10-30">2026.10.30</time>　文・RIPSTIX / SPLASH</p><p class="lead">フィンは小さな部品ですが、ボードの乗り味を大きく左右します。本数と配置（セッティング）の違い、フィン選びで見るべき数値を、初めての人にもわかるように整理しました。</p><nav class="toc" aria-label="目次"><b>目次</b><ol><li><a href="#setup">フィンセッティングの種類</a></li><li><a href="#numbers">フィン選びで見る3つの数値</a></li><li><a href="#system">フィンシステム（FCS・FUTURES）</a></li><li><a href="#choose">迷ったときの選び方</a></li></ol></nav><div class="body">
+<h2 id="setup">フィンセッティングの種類</h2>
+<table class="tbl">
+<tr><th>セッティング</th><th>特徴</th><th>合うボード</th></tr>
+<tr><td>シングル</td><td>大きなフィン1本。ゆったり大きなターン、安定した直進。</td><td>ロングボード、ミッドレングス</td></tr>
+<tr><td>2+1</td><td>センターのフィンに小さなサイドを2本。シングルに粘りを足す。</td><td>ロングボード、ミッドレングス</td></tr>
+<tr><td>ツイン</td><td>2本。軽く速く、テールが流れる自由な乗り味。</td><td>フィッシュ、レトロ系</td></tr>
+<tr><td>トライ（スラスター）</td><td>3本。ホールドと操作性のバランスが良く、最も一般的。</td><td>ショートボード全般</td></tr>
+<tr><td>クアッド</td><td>4本。小波ではスピード、掘れた波ではホールド。</td><td>ショートボード、フィッシュ</td></tr>
+<tr><td>5フィン</td><td>プラグを5つ付け、トライとクアッドを付け替えられる。</td><td>1本でいろいろ試したい人</td></tr>
+</table>
+
+<h2 id="numbers">フィン選びで見る3つの数値</h2>
+<ul>
+<li><b>ベース</b>：ボードに付く部分の長さ。長いほどドライブ（加速）が効きます。</li>
+<li><b>デプス</b>：水の中に入る深さ。深いほどグリップし、浅いほど滑らせやすくなります。</li>
+<li><b>スイープ（レイク）</b>：後ろへの寝かせ具合。寝ているほど大きな弧のターン、立っているほど小回りになります。</li>
+</ul>
+<p class="note">※ 用語の定義は FCS のフィン用語解説を参考にしています。</p>
+<p>たとえば、トライフィンの定番 FCS II Performer（M）はベース約4.37インチ・デプス約4.55インチ・スイープ33.7°。ロングボード用の FCS II Pivot 7" はデプス約7インチと深く、ツインの Modern Keel はベースが約6.4インチと長いのが特徴です。RIPSTIX の<a href="../../#builder">3Dカスタム画面</a>では、これらの公表値をもとにフィンの形を再現しています。</p>
+
+<h2 id="system">フィンシステム（FCS・FUTURES）</h2>
+<p>フィンをボードに取り付ける仕組みには、プラグ式（FCS II など）とボックス式（FUTURES など）があります。どちらのシステムでボードを作るかで、使えるフィンが決まります。今持っているフィンがあれば、それに合わせて作ると無駄がありません。</p>
+
+<h2 id="choose">迷ったときの選び方</h2>
+<ul>
+<li>はじめての1本、オールラウンドに → トライ</li>
+<li>小さい波で速さが欲しい → ツイン、クアッド</li>
+<li>ゆったり大きく乗りたい → シングル、2+1</li>
+<li>いろいろ試したい → 5フィン</li>
+</ul>
+<p>テールとの相性は<a href="../../column/surfboard-tail-types/">テールの種類と乗り味</a>で、フィンやフィンボックスが壊れたときは<a href="../../column/surfboard-repair/">サーフボード修理ガイド</a>をご覧ください。</p>
+</div><section class="faq" id="faq"><h2>よくある質問</h2><details><summary>フィンは何本がいいですか？</summary><p>迷ったら3本（トライ）が最もオールラウンドです。小波で速さを求めるならツインやクアッド、ゆったり乗るならシングルや2+1が向いています。</p></details><details><summary>FCSとFUTURESのフィンは共通で使えますか？</summary><p>取り付け方式が違うため、基本的に共通では使えません。ボードを作るときに、どちらの方式にするかを決めます。</p></details></section></article><aside class="cta-box"><b>あなたの一本を、白渚で。</b><p>RIPSTIX は白渚ポイント目の前のシェイパーズショップ。カスタムオーダーも修理も、まずはお気軽にご相談ください。</p><div><a class="btn" href="../../#builder">3Dでボードを組んでみる</a><a class="btn ghost" href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram で相談</a><a class="btn ghost" href="../../#repair">修理の相談</a></div></aside><section class="rel"><h2>あわせて読みたい</h2><ul><li><a href="../../column/surfboard-tail-types/"><span>選び方</span>テールの種類と乗り味</a></li><li><a href="../../column/surfboard-repair/"><span>修理</span>サーフボード修理（リペア）ガイド</a></li><li><a href="../../column/custom-surfboard-order/"><span>カスタムオーダー</span>カスタムサーフボードのオーダー完全ガイド</a></li><li><a href="../../column/one-of-a-kind-surfboard/"><span>デザイン</span>世界に一つだけのサーフボードのつくり方</a></li></ul></section></main><footer class="cf"><div><b>RIPSTIX / SPLASH</b><p>千葉県南房総市和田町白渚586-2（白渚ポイント目の前）<br>TEL 0470-47-4334　運営：株式会社LTR</p></div><nav><a href="../../">トップ</a><a href="../../column/">コラム一覧</a><a href="../../#access">アクセス</a><a href="../../privacy.html">プライバシーポリシー</a><a href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram</a></nav><small>© RIPSTIX / SPLASH</small></footer>
+</body>
+</html>

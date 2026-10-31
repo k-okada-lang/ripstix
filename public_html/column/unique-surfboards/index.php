@@ -1,0 +1,133 @@
+<?php require __DIR__ . '/../../private/seo.php'; $U = seo_base(); ?>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ユニークなサーフボード図鑑｜フィッシュ・ツイン・ミッドレングス…個性派ボードの選び方｜RIPSTIX</title>
+<meta name="description" content="フィッシュ、ツインフィン、ミッドレングス、グラベラー、ダイヤモンドテール、ボンザー風のセッティングなど、ユニークで個性的なサーフボードの特徴と、どんな波・人に合うかを解説します。">
+<link rel="canonical" href="<?=$U?>column/unique-surfboards/">
+<meta property="og:url" content="<?=$U?>column/unique-surfboards/">
+<meta property="og:image" content="<?=$U?>ogp.jpg">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="RIPSTIX">
+<meta property="og:title" content="ユニークなサーフボード図鑑｜フィッシュ・ツイン・ミッドレングス…個性派ボードの選び方｜RIPSTIX">
+<meta property="og:description" content="フィッシュ、ツインフィン、ミッドレングス、グラベラー、ダイヤモンドテール、ボンザー風のセッティングなど、ユニークで個性的なサーフボードの特徴と、どんな波・人に合うかを解説します。">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0d2230">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../column/column.css">
+<script type="application/ld+json">[
+ {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "ユニークなサーフボード図鑑｜フィッシュ・ツイン・ミッドレングス…個性派ボードの選び方",
+  "description": "フィッシュ、ツインフィン、ミッドレングス、グラベラー、ダイヤモンドテール、ボンザー風のセッティングなど、ユニークで個性的なサーフボードの特徴と、どんな波・人に合うかを解説します。",
+  "datePublished": "2026-10-30",
+  "dateModified": "2026-10-30",
+  "author": {
+   "@type": "Organization",
+   "name": "RIPSTIX / SPLASH（株式会社LTR）"
+  },
+  "publisher": {
+   "@type": "Organization",
+   "name": "RIPSTIX / SPLASH",
+   "logo": {
+    "@type": "ImageObject",
+    "url": "<?=$U?>apple-touch-icon.png"
+   }
+  },
+  "image": "<?=$U?>ogp.jpg",
+  "mainEntityOfPage": "<?=$U?>column/unique-surfboards/",
+  "inLanguage": "ja"
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+   {
+    "@type": "ListItem",
+    "position": 1,
+    "name": "トップ",
+    "item": "<?=$U?>"
+   },
+   {
+    "@type": "ListItem",
+    "position": 2,
+    "name": "コラム",
+    "item": "<?=$U?>column/"
+   },
+   {
+    "@type": "ListItem",
+    "position": 3,
+    "name": "ユニークなサーフボード図鑑",
+    "item": "<?=$U?>column/unique-surfboards/"
+   }
+  ]
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+   {
+    "@type": "Question",
+    "name": "ユニークなサーフボードは初心者でも乗れますか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "ミッドレングスやグラベラーは浮力があり、初心者〜中級者にも乗りやすいタイプです。フィッシュも浮力がありますが、テールの癖があるため、乗る波を相談して選ぶのがおすすめです。"
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "フィッシュとツインフィンは同じものですか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "別のものです。フィッシュはボードの形（主にスワローテール）、ツインフィンはフィンの本数のことです。フィッシュにツインフィンを組み合わせることが多いため、セットで語られます。"
+    }
+   }
+  ]
+ }
+]</script></head>
+<body>
+<header class="ch"><a class="logo" href="../../">RIPSTIX<small>BY SPLASH · SHIRASUKA</small></a><nav><a href="../../column/">コラム</a><a href="../../#repair">修理</a><a class="cta" href="../../#builder">ボードをつくる</a></nav></header><main class="cw"><nav class="crumbs" aria-label="パンくずリスト"><a href="../../">トップ</a> › <a href="../../column/">コラム</a> › <span>ユニークなサーフボード図鑑</span></nav><article><p class="cat">ボードの種類</p><h1>ユニークなサーフボード図鑑｜フィッシュ・ツイン・ミッドレングス…個性派ボードの選び方</h1><p class="meta"><time datetime="2026-10-30">2026.10.30</time>　文・RIPSTIX / SPLASH</p><p class="lead">サーフボードは「ショートかロングか」だけではありません。フィッシュ、ツイン、ミッドレングス、グラベラー…。形が変われば、乗り味も、波の見え方も変わります。ここでは個性派ボードの特徴と、選び方のヒントを紹介します。</p><nav class="toc" aria-label="目次"><b>目次</b><ol><li><a href="#fish">フィッシュ（スワローテール）</a></li><li><a href="#twin">ツインフィン</a></li><li><a href="#mid">ミッドレングス</a></li><li><a href="#grov">グラベラー（小波用）</a></li><li><a href="#tail">テールで個性を出す</a></li><li><a href="#choose">ユニークなボードを選ぶときの考え方</a></li><li><a href="#more">ほかにもある個性派セッティング</a></li><li><a href="#quiver">「2本目」にユニークなボードを</a></li><li><a href="#custom">個性派ボードこそカスタムで</a></li></ol></nav><div class="body">
+<h2 id="fish">フィッシュ（スワローテール）</h2>
+<p>短く、幅が広く、テールが魚の尾びれのように割れたスワローテールが特徴。もともとは1960〜70年代にニーボード（膝立ちで乗るボード）から生まれた形です。浮力があって速く、腰〜胸くらいの波で<strong>スピードに乗って滑る楽しさ</strong>が味わえます。ツインフィンとの組み合わせが定番です。</p>
+
+<h2 id="twin">ツインフィン</h2>
+<p>フィンが2本のセッティング。トライフィン（3本）に比べて水の抵抗が少なく、軽くて速いのが魅力です。テールが流れやすい分、スライドさせるような自由なターンが楽しめます。安定感を足したい場合は、真ん中に小さなフィンを足す「ツイン＋スタビ」という選択肢もあります。</p>
+
+<h2 id="mid">ミッドレングス</h2>
+<p>7フィート前後の、ショートとロングの中間の長さ。長さと浮力のおかげでパドルとテイクオフが楽で、<strong>大きく伸びやかなターン</strong>ができます。「ショートだと波に乗れる本数が少ない」「ロングほど長いと持ち運びが大変」という人にぴったりで、近年とても人気があります。</p>
+
+<h2 id="grov">グラベラー（小波用）</h2>
+<p>短く、幅と厚みがあり、ノーズからテールまで幅が広めの形。膝〜腰の小さな波でも失速しにくく、<strong>波の少ない日でも楽しめる</strong>のが強みです。ふだんのショートボードより少し短く作るのが一般的です。</p>
+
+<h2 id="tail">テールで個性を出す</h2>
+<p>同じボードでも、テールの形で乗り味が変わります。角の多いダイヤモンドテール、スワロー、丸いラウンドピン、細いピンテール…。テールごとの違いは<a href="../../column/surfboard-tail-types/">テールの種類と乗り味</a>で詳しく解説しています。</p>
+
+<h2 id="choose">ユニークなボードを選ぶときの考え方</h2>
+<table class="tbl">
+<tr><th>こんな人に</th><th>おすすめのタイプ</th></tr>
+<tr><td>小さい波の日も楽しみたい</td><td>グラベラー、フィッシュ</td></tr>
+<tr><td>速さと自由なターンを味わいたい</td><td>ツインフィンのフィッシュ</td></tr>
+<tr><td>たくさん波に乗りたい・ゆったり乗りたい</td><td>ミッドレングス</td></tr>
+<tr><td>今のショートに飽きてきた</td><td>ツイン、ミッドレングスで「別の乗り方」を</td></tr>
+</table>
+<p>大切なのは、ボードの種類を「上手い・下手」で選ばないこと。<strong>どんな波で、どんな気持ちで乗りたいか</strong>で選ぶと、ユニークなボードは最高の相棒になります。</p>
+
+
+<h2 id="more">ほかにもある個性派セッティング</h2>
+<ul>
+<li><b>2+1</b>：大きなセンターフィンに小さなサイドフィン。シングルのゆったり感に、ターンの粘りを足せます。ミッドレングスやロングボードで人気です。</li>
+<li><b>クアッド</b>：4本フィン。小さな波ではスピード、掘れた波ではホールド。フィッシュとの相性も良好です。</li>
+<li><b>シングルフィンのミッドレングス</b>：レトロで伸びやかなターン。急がずにラインを描く楽しさがあります。</li>
+</ul>
+<p>フィンの違いは<a href="../../column/surfboard-fin-setup/">フィンの種類とセッティング</a>で詳しく解説しています。</p>
+
+<h2 id="quiver">「2本目」にユニークなボードを</h2>
+<p>いつものショートボードとは別に、小波用のグラベラーやフィッシュ、ゆったり乗れるミッドレングスを持っておくと、<strong>波のない日が「楽しい日」に変わります</strong>。サーファーの間では、こうしたボードの組み合わせを「クイーバー」と呼びます。波に合わせて板を選ぶ楽しさも、サーフィンの醍醐味のひとつです。</p>
+<h2 id="custom">個性派ボードこそカスタムで</h2>
+<p>ユニークなボードは、既製品だと選べるサイズが限られていることも少なくありません。カスタムなら、あなたの体重とよく行く波に合わせて、長さや幅、ボリュームを細かく調整できます。RIPSTIX の<a href="../../#builder">カスタム画面</a>では、5つのタイプから形を選び、3Dで見比べられます。</p>
+</div><section class="faq" id="faq"><h2>よくある質問</h2><details><summary>ユニークなサーフボードは初心者でも乗れますか？</summary><p>ミッドレングスやグラベラーは浮力があり、初心者〜中級者にも乗りやすいタイプです。フィッシュも浮力がありますが、テールの癖があるため、乗る波を相談して選ぶのがおすすめです。</p></details><details><summary>フィッシュとツインフィンは同じものですか？</summary><p>別のものです。フィッシュはボードの形（主にスワローテール）、ツインフィンはフィンの本数のことです。フィッシュにツインフィンを組み合わせることが多いため、セットで語られます。</p></details></section></article><aside class="cta-box"><b>あなたの一本を、白渚で。</b><p>RIPSTIX は白渚ポイント目の前のシェイパーズショップ。カスタムオーダーも修理も、まずはお気軽にご相談ください。</p><div><a class="btn" href="../../#builder">3Dでボードを組んでみる</a><a class="btn ghost" href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram で相談</a><a class="btn ghost" href="../../#repair">修理の相談</a></div></aside><section class="rel"><h2>あわせて読みたい</h2><ul><li><a href="../../column/surfboard-tail-types/"><span>選び方</span>テールの種類と乗り味</a></li><li><a href="../../column/surfboard-fin-setup/"><span>選び方</span>フィンの種類とセッティング</a></li><li><a href="../../column/custom-surfboard-order/"><span>カスタムオーダー</span>カスタムサーフボードのオーダー完全ガイド</a></li><li><a href="../../column/one-of-a-kind-surfboard/"><span>デザイン</span>世界に一つだけのサーフボードのつくり方</a></li></ul></section></main><footer class="cf"><div><b>RIPSTIX / SPLASH</b><p>千葉県南房総市和田町白渚586-2（白渚ポイント目の前）<br>TEL 0470-47-4334　運営：株式会社LTR</p></div><nav><a href="../../">トップ</a><a href="../../column/">コラム一覧</a><a href="../../#access">アクセス</a><a href="../../privacy.html">プライバシーポリシー</a><a href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram</a></nav><small>© RIPSTIX / SPLASH</small></footer>
+</body>
+</html>

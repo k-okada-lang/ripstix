@@ -1,0 +1,121 @@
+<?php require __DIR__ . '/../../private/seo.php'; $U = seo_base(); ?>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>サーフボードのテールの種類と乗り味｜スカッシュ・スワロー・ラウンドピン・ダイヤモンド｜RIPSTIX</title>
+<meta name="description" content="スカッシュ、ラウンド、スクエア、スワロー、ダイヤモンド、ピン、ラウンドピンなど、サーフボードのテール形状ごとの特徴と乗り味、合う波をわかりやすく解説します。">
+<link rel="canonical" href="<?=$U?>column/surfboard-tail-types/">
+<meta property="og:url" content="<?=$U?>column/surfboard-tail-types/">
+<meta property="og:image" content="<?=$U?>ogp.jpg">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="RIPSTIX">
+<meta property="og:title" content="サーフボードのテールの種類と乗り味｜スカッシュ・スワロー・ラウンドピン・ダイヤモンド｜RIPSTIX">
+<meta property="og:description" content="スカッシュ、ラウンド、スクエア、スワロー、ダイヤモンド、ピン、ラウンドピンなど、サーフボードのテール形状ごとの特徴と乗り味、合う波をわかりやすく解説します。">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0d2230">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../column/column.css">
+<script type="application/ld+json">[
+ {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "サーフボードのテールの種類と乗り味｜スカッシュ・スワロー・ラウンドピン・ダイヤモンド",
+  "description": "スカッシュ、ラウンド、スクエア、スワロー、ダイヤモンド、ピン、ラウンドピンなど、サーフボードのテール形状ごとの特徴と乗り味、合う波をわかりやすく解説します。",
+  "datePublished": "2026-10-30",
+  "dateModified": "2026-10-30",
+  "author": {
+   "@type": "Organization",
+   "name": "RIPSTIX / SPLASH（株式会社LTR）"
+  },
+  "publisher": {
+   "@type": "Organization",
+   "name": "RIPSTIX / SPLASH",
+   "logo": {
+    "@type": "ImageObject",
+    "url": "<?=$U?>apple-touch-icon.png"
+   }
+  },
+  "image": "<?=$U?>ogp.jpg",
+  "mainEntityOfPage": "<?=$U?>column/surfboard-tail-types/",
+  "inLanguage": "ja"
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+   {
+    "@type": "ListItem",
+    "position": 1,
+    "name": "トップ",
+    "item": "<?=$U?>"
+   },
+   {
+    "@type": "ListItem",
+    "position": 2,
+    "name": "コラム",
+    "item": "<?=$U?>column/"
+   },
+   {
+    "@type": "ListItem",
+    "position": 3,
+    "name": "テールの種類と乗り味",
+    "item": "<?=$U?>column/surfboard-tail-types/"
+   }
+  ]
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+   {
+    "@type": "Question",
+    "name": "スカッシュテールとラウンドピンはどちらがいいですか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "よく行く波によります。腰〜頭の波でオールラウンドに使うならスカッシュ、胸以上の波で大きなターンをしたいならラウンドピンが向いています。"
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "スワローテールは初心者でも扱えますか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "スワローテールのフィッシュは浮力があり小波で走りやすいので、中級へのステップとして人気です。テールが流れやすい癖があるため、乗る波を相談して選ぶと安心です。"
+    }
+   }
+  ]
+ }
+]</script></head>
+<body>
+<header class="ch"><a class="logo" href="../../">RIPSTIX<small>BY SPLASH · SHIRASUKA</small></a><nav><a href="../../column/">コラム</a><a href="../../#repair">修理</a><a class="cta" href="../../#builder">ボードをつくる</a></nav></header><main class="cw"><nav class="crumbs" aria-label="パンくずリスト"><a href="../../">トップ</a> › <a href="../../column/">コラム</a> › <span>テールの種類と乗り味</span></nav><article><p class="cat">選び方</p><h1>サーフボードのテールの種類と乗り味｜スカッシュ・スワロー・ラウンドピン・ダイヤモンド</h1><p class="meta"><time datetime="2026-10-30">2026.10.30</time>　文・RIPSTIX / SPLASH</p><p class="lead">テールはボードの「最後に水が離れる場所」。形によって、ターンのキレ、ホールド感、スピードの出方が変わります。代表的なテールの特徴を一覧で紹介します。</p><nav class="toc" aria-label="目次"><b>目次</b><ol><li><a href="#basic">テールで何が変わるのか</a></li><li><a href="#list">代表的なテールの種類</a></li><li><a href="#combo">テールと他の要素の組み合わせ</a></li><li><a href="#choose">迷ったら</a></li></ol></nav><div class="body">
+<h2 id="basic">テールで何が変わるのか</h2>
+<p>基本の考え方はシンプルです。<strong>テールの面積が広く角があるほど、浮力と反応の良さが増し、小さな波で走りやすい</strong>。逆に、<strong>テールが細く丸いほど、水をしっかりつかんで、大きく速い波でもホールドが効く</strong>ようになります。</p>
+
+<h2 id="list">代表的なテールの種類</h2>
+<table class="tbl">
+<tr><th>テール</th><th>形</th><th>乗り味</th><th>合う波</th></tr>
+<tr><td>スカッシュ</td><td>四角の角を落とした形</td><td>反応が良く、オールラウンド。ショートボードの定番。</td><td>腰〜頭</td></tr>
+<tr><td>ラウンドスカッシュ</td><td>スカッシュをより丸くした形</td><td>スカッシュよりなめらかにつながるターン。</td><td>腰〜頭</td></tr>
+<tr><td>スクエア</td><td>角ばった形</td><td>キレのあるターン。面積が広く浮力も出る。</td><td>膝〜胸</td></tr>
+<tr><td>スワロー</td><td>燕の尾のように割れた形</td><td>幅のあるテールでも水をつかみやすい。フィッシュの定番。</td><td>膝〜胸</td></tr>
+<tr><td>ダイヤモンド</td><td>菱形に角をつけた形</td><td>スカッシュとピンの中間。軽快さとつながり。</td><td>腰〜胸</td></tr>
+<tr><td>ラウンドピン</td><td>細めで先が丸い形</td><td>大きく伸びのあるターン。ホールドが効く。ミッドレングスにも人気。</td><td>胸〜頭以上</td></tr>
+<tr><td>ピン</td><td>細くとがった形</td><td>最もホールドが強い。大きく速い波向け。</td><td>頭以上</td></tr>
+</table>
+<p class="note">※ テールの分類と特徴は、SurferToday のテール解説などの一般的な考え方をもとにしています。実際の乗り味は、テールの幅・ロッカー・レールの形との組み合わせで変わります。</p>
+
+<h2 id="combo">テールと他の要素の組み合わせ</h2>
+<p>テールは単独で決めるものではありません。たとえばラウンドピンでも、幅を広くとればミッドレングスらしい安定感が出ますし、スワローでもロッカーを強めればキレのある動きになります。<a href="../../column/surfboard-fin-setup/">フィンのセッティング</a>との相性も大切です。</p>
+
+<h2 id="choose">迷ったら</h2>
+<ul>
+<li>小さい波が多い → スクエア、スワロー、スカッシュ</li>
+<li>いろいろな波に一本で → スカッシュ、ラウンドスカッシュ</li>
+<li>大きく伸びやかに乗りたい → ラウンドピン</li>
+</ul>
+<p>RIPSTIX の<a href="../../#builder">カスタム画面</a>では、テールを切り替えてボードの形がどう変わるかを見比べられます。</p>
+</div><section class="faq" id="faq"><h2>よくある質問</h2><details><summary>スカッシュテールとラウンドピンはどちらがいいですか？</summary><p>よく行く波によります。腰〜頭の波でオールラウンドに使うならスカッシュ、胸以上の波で大きなターンをしたいならラウンドピンが向いています。</p></details><details><summary>スワローテールは初心者でも扱えますか？</summary><p>スワローテールのフィッシュは浮力があり小波で走りやすいので、中級へのステップとして人気です。テールが流れやすい癖があるため、乗る波を相談して選ぶと安心です。</p></details></section></article><aside class="cta-box"><b>あなたの一本を、白渚で。</b><p>RIPSTIX は白渚ポイント目の前のシェイパーズショップ。カスタムオーダーも修理も、まずはお気軽にご相談ください。</p><div><a class="btn" href="../../#builder">3Dでボードを組んでみる</a><a class="btn ghost" href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram で相談</a><a class="btn ghost" href="../../#repair">修理の相談</a></div></aside><section class="rel"><h2>あわせて読みたい</h2><ul><li><a href="../../column/surfboard-fin-setup/"><span>選び方</span>フィンの種類とセッティング</a></li><li><a href="../../column/custom-surfboard-order/"><span>カスタムオーダー</span>カスタムサーフボードのオーダー完全ガイド</a></li><li><a href="../../column/one-of-a-kind-surfboard/"><span>デザイン</span>世界に一つだけのサーフボードのつくり方</a></li><li><a href="../../column/unique-surfboards/"><span>ボードの種類</span>ユニークなサーフボード図鑑</a></li></ul></section></main><footer class="cf"><div><b>RIPSTIX / SPLASH</b><p>千葉県南房総市和田町白渚586-2（白渚ポイント目の前）<br>TEL 0470-47-4334　運営：株式会社LTR</p></div><nav><a href="../../">トップ</a><a href="../../column/">コラム一覧</a><a href="../../#access">アクセス</a><a href="../../privacy.html">プライバシーポリシー</a><a href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram</a></nav><small>© RIPSTIX / SPLASH</small></footer>
+</body>
+</html>

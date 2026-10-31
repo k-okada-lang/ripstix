@@ -1,0 +1,134 @@
+<?php require __DIR__ . '/../../private/seo.php'; $U = seo_base(); ?>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>サーフボードの選び方｜レベル・体重・波で決めるサイズとボリューム（リッター）｜RIPSTIX</title>
+<meta name="description" content="サーフボード選びで迷わないために、体重とレベルから必要なボリューム（リッター）を計算する方法、長さ・幅・厚みの考え方、波のサイズ別のおすすめをわかりやすく解説します。">
+<link rel="canonical" href="<?=$U?>column/how-to-choose-surfboard/">
+<meta property="og:url" content="<?=$U?>column/how-to-choose-surfboard/">
+<meta property="og:image" content="<?=$U?>ogp.jpg">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="RIPSTIX">
+<meta property="og:title" content="サーフボードの選び方｜レベル・体重・波で決めるサイズとボリューム（リッター）｜RIPSTIX">
+<meta property="og:description" content="サーフボード選びで迷わないために、体重とレベルから必要なボリューム（リッター）を計算する方法、長さ・幅・厚みの考え方、波のサイズ別のおすすめをわかりやすく解説します。">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0d2230">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../column/column.css">
+<script type="application/ld+json">[
+ {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "サーフボードの選び方｜レベル・体重・波で決めるサイズとボリューム（リッター）",
+  "description": "サーフボード選びで迷わないために、体重とレベルから必要なボリューム（リッター）を計算する方法、長さ・幅・厚みの考え方、波のサイズ別のおすすめをわかりやすく解説します。",
+  "datePublished": "2026-10-30",
+  "dateModified": "2026-10-30",
+  "author": {
+   "@type": "Organization",
+   "name": "RIPSTIX / SPLASH（株式会社LTR）"
+  },
+  "publisher": {
+   "@type": "Organization",
+   "name": "RIPSTIX / SPLASH",
+   "logo": {
+    "@type": "ImageObject",
+    "url": "<?=$U?>apple-touch-icon.png"
+   }
+  },
+  "image": "<?=$U?>ogp.jpg",
+  "mainEntityOfPage": "<?=$U?>column/how-to-choose-surfboard/",
+  "inLanguage": "ja"
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+   {
+    "@type": "ListItem",
+    "position": 1,
+    "name": "トップ",
+    "item": "<?=$U?>"
+   },
+   {
+    "@type": "ListItem",
+    "position": 2,
+    "name": "コラム",
+    "item": "<?=$U?>column/"
+   },
+   {
+    "@type": "ListItem",
+    "position": 3,
+    "name": "サーフボードの選び方（サイズとボリューム）",
+    "item": "<?=$U?>column/how-to-choose-surfboard/"
+   }
+  ]
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+   {
+    "@type": "Question",
+    "name": "サーフボードのボリュームはどうやって決めればいいですか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "体重（kg）にレベルごとの係数をかけるのが目安です。初心者は0.5以上、中級は0.38〜0.42程度。冬のウェットや体力も考えて、最後はショップで相談するのが確実です。"
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "初心者は何フィートのボードを選べばいいですか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "長さよりボリュームが大切です。浮力が十分ある長め・幅広のボード（ミッドレングスやソフトボード、ロングボード）から始めると、テイクオフの練習がしやすくなります。"
+    }
+   }
+  ]
+ }
+]</script></head>
+<body>
+<header class="ch"><a class="logo" href="../../">RIPSTIX<small>BY SPLASH · SHIRASUKA</small></a><nav><a href="../../column/">コラム</a><a href="../../#repair">修理</a><a class="cta" href="../../#builder">ボードをつくる</a></nav></header><main class="cw"><nav class="crumbs" aria-label="パンくずリスト"><a href="../../">トップ</a> › <a href="../../column/">コラム</a> › <span>サーフボードの選び方（サイズとボリューム）</span></nav><article><p class="cat">選び方</p><h1>サーフボードの選び方｜レベル・体重・波で決めるサイズとボリューム（リッター）</h1><p class="meta"><time datetime="2026-10-30">2026.10.30</time>　文・RIPSTIX / SPLASH</p><p class="lead">サーフボード選びでいちばん大切なのは「ボリューム（浮力）」です。かっこいい板でも、浮力が合っていないとパドルもテイクオフも苦労します。体重とレベルから目安を出す方法と、長さ・幅・厚みの考え方を紹介します。</p><nav class="toc" aria-label="目次"><b>目次</b><ol><li><a href="#volume">ボリューム（リッター）とは</a></li><li><a href="#calc">体重×係数でボリュームの目安を出す</a></li><li><a href="#size">長さ・幅・厚みの役割</a></li><li><a href="#wave">よく行く波で選ぶ</a></li><li><a href="#mistake">よくある失敗</a></li></ol></nav><div class="body">
+<h2 id="volume">ボリューム（リッター）とは</h2>
+<p>ボリュームは、ボードの体積をリットルで表したもので、浮力の大きさの目安になります。長さ・幅・厚みだけでなく、形（ノーズやテールの幅、レールの厚み）でも変わるため、<strong>同じ長さでもボリュームは大きく違う</strong>ことがあります。</p>
+
+<h2 id="calc">体重×係数でボリュームの目安を出す</h2>
+<p>よく使われる考え方が、体重（kg）にレベルごとの係数（ギルドファクター）をかける方法です。</p>
+<table class="tbl">
+<tr><th>レベル</th><th>係数の目安</th><th>体重65kgの場合</th></tr>
+<tr><td>はじめて〜初心者</td><td>0.50以上</td><td>約33L以上</td></tr>
+<tr><td>週末サーファー</td><td>0.43〜0.49</td><td>約28〜32L</td></tr>
+<tr><td>中級（経験を積んできた人）</td><td>0.38〜0.42</td><td>約25〜27L</td></tr>
+<tr><td>中〜上級</td><td>0.36〜0.38</td><td>約23〜25L</td></tr>
+<tr><td>上級・プロ</td><td>0.34〜0.36</td><td>約22〜23L</td></tr>
+</table>
+<p class="note">※ 係数は SurferToday のボリューム計算の考え方を参考にした目安です。冬のウェットスーツ、海に入る頻度、年齢、体力によっても適正は変わります。EPS（エポキシ）素材は浮力が出やすいため、同じ感覚なら2〜3L少なめが目安とされています。</p>
+<p>RIPSTIX の<a href="../../#builder">カスタム画面</a>では、長さ・幅・厚みを変えると推定ボリュームがその場で表示されます。</p>
+
+<h2 id="size">長さ・幅・厚みの役割</h2>
+<ul>
+<li><b>長さ</b>：長いほどパドルが速く、波を早くつかめ、直進が安定します。短いほど小回りが利きます。</li>
+<li><b>幅</b>：広いほど安定し、小さな波でも失速しにくくなります。狭いほどレールを入れやすく、反応が良くなります。</li>
+<li><b>厚み</b>：厚いほど浮力が増えます。ただし厚すぎるとレールが水に入りにくくなります。</li>
+</ul>
+
+<h2 id="wave">よく行く波で選ぶ</h2>
+<table class="tbl">
+<tr><th>波のサイズ</th><th>おすすめ</th></tr>
+<tr><td>膝〜腰</td><td>グラベラー、フィッシュ、ミッドレングス、ロングボード</td></tr>
+<tr><td>腰〜胸</td><td>ショートボード（浮力やや多め）、フィッシュ、ミッドレングス</td></tr>
+<tr><td>肩〜頭以上</td><td>ショートボード、ロッカーが強めのモデル</td></tr>
+</table>
+<p>1本目は「よく行く波でいちばん楽しめる一本」を選ぶのが正解です。タイプごとの違いは<a href="../../column/unique-surfboards/">ユニークなサーフボード図鑑</a>、テールの違いは<a href="../../column/surfboard-tail-types/">テールの種類と乗り味</a>もどうぞ。</p>
+
+<h2 id="mistake">よくある失敗</h2>
+<ul>
+<li><b>浮力が足りない板を選ぶ</b>：パドルで疲れ、乗れる本数が減り、上達が遅くなります。迷ったら少し多めが安全です。</li>
+<li><b>長さだけで選ぶ</b>：同じ6'0"でも、幅と厚みでボリュームはまったく違います。必ずリッターも確認しましょう。</li>
+<li><b>中古で「なんとなく」選ぶ</b>：形が自分の波に合っていないことがあります。購入前にショップで相談を。</li>
+</ul>
+<p>「数字はわからないけど、今の板の悩みはわかる」という方は、その悩みをそのままシェイパーに伝えてください。カスタムなら、悩みから逆算して一本を設計できます。</p>
+</div><section class="faq" id="faq"><h2>よくある質問</h2><details><summary>サーフボードのボリュームはどうやって決めればいいですか？</summary><p>体重（kg）にレベルごとの係数をかけるのが目安です。初心者は0.5以上、中級は0.38〜0.42程度。冬のウェットや体力も考えて、最後はショップで相談するのが確実です。</p></details><details><summary>初心者は何フィートのボードを選べばいいですか？</summary><p>長さよりボリュームが大切です。浮力が十分ある長め・幅広のボード（ミッドレングスやソフトボード、ロングボード）から始めると、テイクオフの練習がしやすくなります。</p></details></section></article><aside class="cta-box"><b>あなたの一本を、白渚で。</b><p>RIPSTIX は白渚ポイント目の前のシェイパーズショップ。カスタムオーダーも修理も、まずはお気軽にご相談ください。</p><div><a class="btn" href="../../#builder">3Dでボードを組んでみる</a><a class="btn ghost" href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram で相談</a><a class="btn ghost" href="../../#repair">修理の相談</a></div></aside><section class="rel"><h2>あわせて読みたい</h2><ul><li><a href="../../column/unique-surfboards/"><span>ボードの種類</span>ユニークなサーフボード図鑑</a></li><li><a href="../../column/surfboard-tail-types/"><span>選び方</span>テールの種類と乗り味</a></li><li><a href="../../column/custom-surfboard-order/"><span>カスタムオーダー</span>カスタムサーフボードのオーダー完全ガイド</a></li><li><a href="../../column/one-of-a-kind-surfboard/"><span>デザイン</span>世界に一つだけのサーフボードのつくり方</a></li></ul></section></main><footer class="cf"><div><b>RIPSTIX / SPLASH</b><p>千葉県南房総市和田町白渚586-2（白渚ポイント目の前）<br>TEL 0470-47-4334　運営：株式会社LTR</p></div><nav><a href="../../">トップ</a><a href="../../column/">コラム一覧</a><a href="../../#access">アクセス</a><a href="../../privacy.html">プライバシーポリシー</a><a href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram</a></nav><small>© RIPSTIX / SPLASH</small></footer>
+</body>
+</html>

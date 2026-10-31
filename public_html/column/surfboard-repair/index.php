@@ -1,0 +1,135 @@
+<?php require __DIR__ . '/../../private/seo.php'; $U = seo_base(); ?>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>サーフボード修理（リペア）ガイド｜ディング・クラック・折れの対処と応急処置｜RIPSTIX</title>
+<meta name="description" content="サーフボードのディング（凹み・穴）、クラック（割れ）、折れ、フィンボックスの破損、デラミなど、よくある傷の種類と応急処置、修理に出すタイミングを解説。千葉・南房総の白渚で修理を受け付けています。">
+<link rel="canonical" href="<?=$U?>column/surfboard-repair/">
+<meta property="og:url" content="<?=$U?>column/surfboard-repair/">
+<meta property="og:image" content="<?=$U?>ogp.jpg">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="RIPSTIX">
+<meta property="og:title" content="サーフボード修理（リペア）ガイド｜ディング・クラック・折れの対処と応急処置｜RIPSTIX">
+<meta property="og:description" content="サーフボードのディング（凹み・穴）、クラック（割れ）、折れ、フィンボックスの破損、デラミなど、よくある傷の種類と応急処置、修理に出すタイミングを解説。千葉・南房総の白渚で修理を受け付けています。">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0d2230">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../column/column.css">
+<script type="application/ld+json">[
+ {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "サーフボード修理（リペア）ガイド｜ディング・クラック・折れの対処と応急処置",
+  "description": "サーフボードのディング（凹み・穴）、クラック（割れ）、折れ、フィンボックスの破損、デラミなど、よくある傷の種類と応急処置、修理に出すタイミングを解説。千葉・南房総の白渚で修理を受け付けています。",
+  "datePublished": "2026-10-30",
+  "dateModified": "2026-10-30",
+  "author": {
+   "@type": "Organization",
+   "name": "RIPSTIX / SPLASH（株式会社LTR）"
+  },
+  "publisher": {
+   "@type": "Organization",
+   "name": "RIPSTIX / SPLASH",
+   "logo": {
+    "@type": "ImageObject",
+    "url": "<?=$U?>apple-touch-icon.png"
+   }
+  },
+  "image": "<?=$U?>ogp.jpg",
+  "mainEntityOfPage": "<?=$U?>column/surfboard-repair/",
+  "inLanguage": "ja"
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+   {
+    "@type": "ListItem",
+    "position": 1,
+    "name": "トップ",
+    "item": "<?=$U?>"
+   },
+   {
+    "@type": "ListItem",
+    "position": 2,
+    "name": "コラム",
+    "item": "<?=$U?>column/"
+   },
+   {
+    "@type": "ListItem",
+    "position": 3,
+    "name": "サーフボード修理（リペア）ガイド",
+    "item": "<?=$U?>column/surfboard-repair/"
+   }
+  ]
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+   {
+    "@type": "Question",
+    "name": "サーフボードの小さな傷でも修理は必要ですか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "表面の小さな擦り傷なら急ぎませんが、穴やひびがある場合は修理が必要です。水が入るとフォームが傷み、修理が大きくなります。"
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "折れたサーフボードは直せますか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "多くの場合、つないで補強すれば再び乗れる状態にできます。折れ方や場所によるので、まずは写真でご相談ください。"
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "他のブランドのボードも修理してもらえますか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "RIPSTIX 以外のボードも、まずはご相談ください。状態を見て対応方法をご案内します。"
+    }
+   }
+  ]
+ }
+]</script></head>
+<body>
+<header class="ch"><a class="logo" href="../../">RIPSTIX<small>BY SPLASH · SHIRASUKA</small></a><nav><a href="../../column/">コラム</a><a href="../../#repair">修理</a><a class="cta" href="../../#builder">ボードをつくる</a></nav></header><main class="cw"><nav class="crumbs" aria-label="パンくずリスト"><a href="../../">トップ</a> › <a href="../../column/">コラム</a> › <span>サーフボード修理（リペア）ガイド</span></nav><article><p class="cat">修理</p><h1>サーフボード修理（リペア）ガイド｜ディング・クラック・折れの対処と応急処置</h1><p class="meta"><time datetime="2026-10-30">2026.10.30</time>　文・RIPSTIX / SPLASH</p><p class="lead">サーフボードは、岩や他のボードとの接触、車への積み込みなど、ちょっとしたことで傷つきます。小さな傷でも放っておくと大きな修理につながることも。傷の種類と、修理に出す前にやるべきことをまとめました。</p><nav class="toc" aria-label="目次"><b>目次</b><ol><li><a href="#types">よくある傷の種類</a></li><li><a href="#first">傷を見つけたら、まずやること</a></li><li><a href="#price">修理代と期間が変わる理由</a></li><li><a href="#prevent">傷を防ぐコツ</a></li><li><a href="#ripstix">白渚の SPLASH / RIPSTIX で修理を受け付けています</a></li></ol></nav><div class="body">
+<h2 id="types">よくある傷の種類</h2>
+<table class="tbl">
+<tr><th>傷</th><th>状態</th><th>放っておくと</th></tr>
+<tr><td>ディング</td><td>小さな凹みや穴。ノーズ・テール・レールにできやすい。</td><td>穴があると水が入り、中のフォームが傷む</td></tr>
+<tr><td>クラック</td><td>ひび割れ。踏み込む位置のデッキにもできる。</td><td>割れ目から水が入り、変色や重さの原因に</td></tr>
+<tr><td>折れ（スナップ）</td><td>ボードが2つに折れる、または折れかけ。</td><td>乗れない。修理には補強が必要</td></tr>
+<tr><td>デラミ</td><td>表面のガラスがフォームから剥がれてふくらむ。</td><td>範囲が広がり、割れやすくなる</td></tr>
+<tr><td>フィンボックス・プラグの破損</td><td>フィンの付け根が割れる、ぐらつく。</td><td>フィンが外れたり、周りが割れたりする</td></tr>
+</table>
+
+<h2 id="first">傷を見つけたら、まずやること</h2>
+<ol>
+<li><b>その日はもう乗らない</b>：穴やひびがあるまま乗ると、海水がどんどん中に入ります。</li>
+<li><b>真水で流す</b>：塩分を落としておくと、修理の仕上がりが良くなります。</li>
+<li><b>よく乾かす</b>：日陰で、傷の部分を下にして水を抜きながら乾かします。直射日光は避けます。</li>
+<li><b>早めに相談する</b>：写真を撮ってショップに送れば、修理の方法や期間の目安がわかります。</li>
+</ol>
+<p class="note">※ リペア用のテープや簡易キットでの応急処置は、あくまで一時しのぎです。中に水が残ったままふさぐと、あとで変色や剥がれの原因になります。</p>
+
+<h2 id="price">修理代と期間が変わる理由</h2>
+<p>修理の内容は、傷の大きさ・場所・深さ、ボードの素材（PU か EPS か）、カラーの有無で変わります。たとえば同じ大きさのディングでも、レールの角は形を作り直す手間がかかり、カラーの入ったボードは色合わせが必要です。だからこそ、実物か写真を見てからのお見積もりになります。</p>
+
+<h2 id="prevent">傷を防ぐコツ</h2>
+<ul>
+<li>ボードケース（ニットケースやハードケース）に入れて運ぶ</li>
+<li>車の中や直射日光の下に長時間置かない（デラミの原因に）</li>
+<li>浅いポイントや岩の多いポイントでは、出入りのルートに注意する</li>
+</ul>
+<p>保管とお手入れは<a href="../../column/surfboard-care/">サーフボードを長持ちさせる保管とメンテナンス</a>で詳しく紹介しています。</p>
+
+<h2 id="ripstix">白渚の SPLASH / RIPSTIX で修理を受け付けています</h2>
+<p>千葉県南房総市和田町、白渚ポイント目の前の SPLASH では、ボードをつくるシェイパーが修理も行っています。ディングから折れ、フィンボックスまで、まずは傷の写真を Instagram の DM で送るか、お店に持ってきてください。RIPSTIX 以外のボードもご相談ください。詳しくは<a href="../../#repair">修理（リペア）のご案内</a>へ。</p>
+</div><section class="faq" id="faq"><h2>よくある質問</h2><details><summary>サーフボードの小さな傷でも修理は必要ですか？</summary><p>表面の小さな擦り傷なら急ぎませんが、穴やひびがある場合は修理が必要です。水が入るとフォームが傷み、修理が大きくなります。</p></details><details><summary>折れたサーフボードは直せますか？</summary><p>多くの場合、つないで補強すれば再び乗れる状態にできます。折れ方や場所によるので、まずは写真でご相談ください。</p></details><details><summary>他のブランドのボードも修理してもらえますか？</summary><p>RIPSTIX 以外のボードも、まずはご相談ください。状態を見て対応方法をご案内します。</p></details></section></article><aside class="cta-box"><b>あなたの一本を、白渚で。</b><p>RIPSTIX は白渚ポイント目の前のシェイパーズショップ。カスタムオーダーも修理も、まずはお気軽にご相談ください。</p><div><a class="btn" href="../../#builder">3Dでボードを組んでみる</a><a class="btn ghost" href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram で相談</a><a class="btn ghost" href="../../#repair">修理の相談</a></div></aside><section class="rel"><h2>あわせて読みたい</h2><ul><li><a href="../../column/surfboard-care/"><span>メンテナンス</span>長持ちさせる保管とメンテナンス</a></li><li><a href="../../column/custom-surfboard-order/"><span>カスタムオーダー</span>カスタムサーフボードのオーダー完全ガイド</a></li><li><a href="../../column/one-of-a-kind-surfboard/"><span>デザイン</span>世界に一つだけのサーフボードのつくり方</a></li><li><a href="../../column/unique-surfboards/"><span>ボードの種類</span>ユニークなサーフボード図鑑</a></li></ul></section></main><footer class="cf"><div><b>RIPSTIX / SPLASH</b><p>千葉県南房総市和田町白渚586-2（白渚ポイント目の前）<br>TEL 0470-47-4334　運営：株式会社LTR</p></div><nav><a href="../../">トップ</a><a href="../../column/">コラム一覧</a><a href="../../#access">アクセス</a><a href="../../privacy.html">プライバシーポリシー</a><a href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram</a></nav><small>© RIPSTIX / SPLASH</small></footer>
+</body>
+</html>

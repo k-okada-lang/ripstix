@@ -1,0 +1,148 @@
+<?php require __DIR__ . '/../../private/seo.php'; $U = seo_base(); ?>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>世界に一つだけのサーフボードをつくる｜カラー・ロゴ・デザインの決め方｜RIPSTIX</title>
+<meta name="description" content="世界に一つだけのオリジナルサーフボードをつくるための、カラー（ティント・レジンワーク・スプレー）、ピンライン、ロゴ位置、ストリンガーの選び方を解説。手仕事ならではの一点ものの魅力も紹介します。">
+<link rel="canonical" href="<?=$U?>column/one-of-a-kind-surfboard/">
+<meta property="og:url" content="<?=$U?>column/one-of-a-kind-surfboard/">
+<meta property="og:image" content="<?=$U?>ogp.jpg">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="RIPSTIX">
+<meta property="og:title" content="世界に一つだけのサーフボードをつくる｜カラー・ロゴ・デザインの決め方｜RIPSTIX">
+<meta property="og:description" content="世界に一つだけのオリジナルサーフボードをつくるための、カラー（ティント・レジンワーク・スプレー）、ピンライン、ロゴ位置、ストリンガーの選び方を解説。手仕事ならではの一点ものの魅力も紹介します。">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0d2230">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../column/column.css">
+<script type="application/ld+json">[
+ {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "世界に一つだけのサーフボードをつくる｜カラー・ロゴ・デザインの決め方",
+  "description": "世界に一つだけのオリジナルサーフボードをつくるための、カラー（ティント・レジンワーク・スプレー）、ピンライン、ロゴ位置、ストリンガーの選び方を解説。手仕事ならではの一点ものの魅力も紹介します。",
+  "datePublished": "2026-10-30",
+  "dateModified": "2026-10-30",
+  "author": {
+   "@type": "Organization",
+   "name": "RIPSTIX / SPLASH（株式会社LTR）"
+  },
+  "publisher": {
+   "@type": "Organization",
+   "name": "RIPSTIX / SPLASH",
+   "logo": {
+    "@type": "ImageObject",
+    "url": "<?=$U?>apple-touch-icon.png"
+   }
+  },
+  "image": "<?=$U?>ogp.jpg",
+  "mainEntityOfPage": "<?=$U?>column/one-of-a-kind-surfboard/",
+  "inLanguage": "ja"
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+   {
+    "@type": "ListItem",
+    "position": 1,
+    "name": "トップ",
+    "item": "<?=$U?>"
+   },
+   {
+    "@type": "ListItem",
+    "position": 2,
+    "name": "コラム",
+    "item": "<?=$U?>column/"
+   },
+   {
+    "@type": "ListItem",
+    "position": 3,
+    "name": "世界に一つだけのサーフボードのつくり方",
+    "item": "<?=$U?>column/one-of-a-kind-surfboard/"
+   }
+  ]
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+   {
+    "@type": "Question",
+    "name": "オリジナルデザインのサーフボードは作れますか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "作れます。カラーの手法、ピンライン、ロゴの位置と色を組み合わせて、世界に一つだけのデザインにできます。"
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "カラーを入れると重くなりますか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "樹脂の量によってわずかに重くなることがあります。軽さを重視する場合はクリアや部分的なカラーがおすすめです。"
+    }
+   },
+   {
+    "@type": "Question",
+    "name": "自分で考えたロゴを入れられますか？",
+    "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "内容によりご相談ください。データや画像をお持ちいただければ、入れ方を一緒に検討します。"
+    }
+   }
+  ]
+ }
+]</script></head>
+<body>
+<header class="ch"><a class="logo" href="../../">RIPSTIX<small>BY SPLASH · SHIRASUKA</small></a><nav><a href="../../column/">コラム</a><a href="../../#repair">修理</a><a class="cta" href="../../#builder">ボードをつくる</a></nav></header><main class="cw"><nav class="crumbs" aria-label="パンくずリスト"><a href="../../">トップ</a> › <a href="../../column/">コラム</a> › <span>世界に一つだけのサーフボードのつくり方</span></nav><article><p class="cat">デザイン</p><h1>世界に一つだけのサーフボードをつくる｜カラー・ロゴ・デザインの決め方</h1><p class="meta"><time datetime="2026-10-30">2026.10.30</time>　文・RIPSTIX / SPLASH</p><p class="lead">同じサイズ、同じモデルでも、カラーとデザインで「自分の一本」になります。カスタムサーフボードは、色の入れ方ひとつで表情がまったく変わる、文字どおり世界に一つだけのボード。デザインを決めるときのポイントをまとめました。</p><nav class="toc" aria-label="目次"><b>目次</b><ol><li><a href="#why">なぜ「世界に一つだけ」になるのか</a></li><li><a href="#color">カラーの入れ方の種類</a></li><li><a href="#pinline">ピンラインとストリンガー</a></li><li><a href="#logo">ロゴの位置で印象が変わる</a></li><li><a href="#tips">デザインを決める3つのコツ</a></li><li><a href="#ideas">一点ものに仕上げるアイデア</a></li><li><a href="#check">3Dで確認してから相談を</a></li><li><a href="#gift">プレゼントにも</a></li><li><a href="#note">知っておきたいこと</a></li></ol></nav><div class="body">
+<h2 id="why">なぜ「世界に一つだけ」になるのか</h2>
+<p>サーフボードのカラーの多くは、樹脂（レジン）に顔料を混ぜてガラスクロスに染み込ませる手仕事です。気温や湿度、塗る回数、クロスの目の細かさで、色の濃さやにじみ方が変わります。<strong>同じ指示で作っても、二度と同じ柄にはならない</strong>。これがカスタムボードが一点ものと言われる理由です。</p>
+
+<h2 id="color">カラーの入れ方の種類</h2>
+<table class="tbl">
+<tr><th>手法</th><th>特徴</th><th>向いている人</th></tr>
+<tr><td>クリア（色なし）</td><td>フォームの白とストリンガーの木目がそのまま見える、いちばん軽くシンプルな仕上げ。</td><td>軽さ重視・ロゴを主役にしたい人</td></tr>
+<tr><td>ティント</td><td>樹脂に色を混ぜて全体を染める。透け感のある深い色。</td><td>レトロな雰囲気、ツインやシングルに</td></tr>
+<tr><td>オペーク</td><td>透けない、はっきりした色。ポップな印象。</td><td>遠くからでも目立たせたい人</td></tr>
+<tr><td>レールフェード</td><td>レール（ふち）側だけに色を入れ、中央に向かってぼかす。</td><td>上品さと個性を両立したい人</td></tr>
+<tr><td>ディップ（ノーズ・テール）</td><td>ノーズとテールを色につけたような塗り分け。</td><td>ひと目でわかる遊び心が欲しい人</td></tr>
+<tr><td>レジンワーク（スワール・パネル）</td><td>複数の色を流し込んで模様を作る。最も一点もの感が強い。</td><td>完全オリジナルを求める人</td></tr>
+</table>
+<p>色を入れると、樹脂の分だけわずかに重くなることがあります。軽さを優先するか、見た目を優先するかもシェイパーと相談しましょう。</p>
+
+<h2 id="pinline">ピンラインとストリンガー</h2>
+<p><strong>ピンライン</strong>は、デッキのふちに沿って入れる細い線です。色の境目を引き締め、ぐっとクラシックな印象になります。<strong>ストリンガー</strong>はボードの中心を通る芯材で、木（ウッド）や、色付きの素材を選べる場合もあります。クリアやティントの板では、ストリンガーもデザインの一部になります。</p>
+
+<h2 id="logo">ロゴの位置で印象が変わる</h2>
+<p>ロゴは「どこに置くか」で板の顔が変わります。デッキのノーズ寄りに置けば正統派、センターにずらせば個性的、ボトムに大きく入れれば乗っていないときも主張する一本に。RIPSTIX の<a href="../../#builder">カスタム画面</a>では、デッキとボトムの好きな場所をタップしてロゴを置き、3Dで回して確認できます。</p>
+
+<h2 id="tips">デザインを決める3つのコツ</h2>
+<ol>
+<li><b>色は2〜3色まで</b>：色数を絞ると、手仕事のにじみやグラデーションがきれいに映えます。</li>
+<li><b>ウェットスーツと海の色を思い浮かべる</b>：黒いウェット、白い波、青い海の中でどう見えるかを想像すると失敗しません。</li>
+<li><b>写真を1枚用意する</b>：好きな色の写真やイメージ画像は、言葉より正確に伝わります。</li>
+</ol>
+
+
+<h2 id="ideas">一点ものに仕上げるアイデア</h2>
+<ul>
+<li><b>記念日の一本</b>：誕生日や結婚、子どもの誕生など、節目の年をロゴの近くに。</li>
+<li><b>ホームポイントの色</b>：よく行く海の色、夕焼けの色をカラーのテーマに。</li>
+<li><b>ペア・チームでそろえる</b>：形は人それぞれ、カラーだけおそろいにするのも人気です。</li>
+<li><b>デッキとボトムで表情を変える</b>：デッキはシンプル、ボトムは大胆に。乗る前と乗った後で違う顔を見せられます。</li>
+</ul>
+
+<h2 id="check">3Dで確認してから相談を</h2>
+<p>頭の中のイメージと、実際にボードになったときの印象は意外と違うものです。RIPSTIX の<a href="../../#builder">カスタム画面</a>では、カラーパターン、デッキとボトムの色、ピンライン、ロゴの位置を変えながら、3Dで回したり横に倒したりして確認できます。気に入ったら会員登録して保存し、そのままオーダーを申し込むこともできます。</p>
+
+<h2 id="gift">プレゼントにも</h2>
+<p>世界に一つだけのサーフボードは、大切な人への特別な贈り物にもなります。サイズは乗る本人に合わせる必要があるため、贈る場合は身長・体重・サーフィン歴を事前に確認しておくか、ご本人と一緒にご相談ください。</p>
+<h2 id="note">知っておきたいこと</h2>
+<p>手仕事のカラーは、画面で見た色とまったく同じにはなりません。また、フィンやストリンガーの色は製造工程の都合でご希望どおりにできない場合があります。その違いこそが一点ものの味わいですが、気になる点は事前にお店で実物のサンプルを見て確認するのが安心です。</p>
+<p>形の決め方は<a href="../../column/custom-surfboard-order/">カスタムサーフボードのオーダー完全ガイド</a>、ユニークなシェイプ選びは<a href="../../column/unique-surfboards/">ユニークなサーフボード図鑑</a>もあわせてどうぞ。</p>
+</div><section class="faq" id="faq"><h2>よくある質問</h2><details><summary>オリジナルデザインのサーフボードは作れますか？</summary><p>作れます。カラーの手法、ピンライン、ロゴの位置と色を組み合わせて、世界に一つだけのデザインにできます。</p></details><details><summary>カラーを入れると重くなりますか？</summary><p>樹脂の量によってわずかに重くなることがあります。軽さを重視する場合はクリアや部分的なカラーがおすすめです。</p></details><details><summary>自分で考えたロゴを入れられますか？</summary><p>内容によりご相談ください。データや画像をお持ちいただければ、入れ方を一緒に検討します。</p></details></section></article><aside class="cta-box"><b>あなたの一本を、白渚で。</b><p>RIPSTIX は白渚ポイント目の前のシェイパーズショップ。カスタムオーダーも修理も、まずはお気軽にご相談ください。</p><div><a class="btn" href="../../#builder">3Dでボードを組んでみる</a><a class="btn ghost" href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram で相談</a><a class="btn ghost" href="../../#repair">修理の相談</a></div></aside><section class="rel"><h2>あわせて読みたい</h2><ul><li><a href="../../column/custom-surfboard-order/"><span>カスタムオーダー</span>カスタムサーフボードのオーダー完全ガイド</a></li><li><a href="../../column/unique-surfboards/"><span>ボードの種類</span>ユニークなサーフボード図鑑</a></li><li><a href="../../column/mid-length-surfboard/"><span>ボードの種類</span>ミッドレングスの魅力と選び方</a></li><li><a href="../../column/how-to-choose-surfboard/"><span>選び方</span>サーフボードの選び方（サイズとボリューム）</a></li></ul></section></main><footer class="cf"><div><b>RIPSTIX / SPLASH</b><p>千葉県南房総市和田町白渚586-2（白渚ポイント目の前）<br>TEL 0470-47-4334　運営：株式会社LTR</p></div><nav><a href="../../">トップ</a><a href="../../column/">コラム一覧</a><a href="../../#access">アクセス</a><a href="../../privacy.html">プライバシーポリシー</a><a href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram</a></nav><small>© RIPSTIX / SPLASH</small></footer>
+</body>
+</html>
