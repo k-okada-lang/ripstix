@@ -1,0 +1,8 @@
+# このフォルダ（データベース・設定）は外部から一切見られないようにします
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Deny from all
+</IfModule>

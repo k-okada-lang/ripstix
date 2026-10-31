@@ -5,6 +5,9 @@
 
 運営：株式会社LTR（〒299-2711 千葉県南房総市和田町白渚586-2 / TEL 0470-47-4334）
 
+**公開ページ（GitHub Pages）：https://k-okada-lang.github.io/ripstix/**
+（GitHub Pages では PHP が動かないため、会員登録・管理画面は使えません。本番はエックスサーバーで公開します）
+
 ---
 
 ## 主な機能
@@ -22,6 +25,7 @@
 ## フォルダ構成
 
 ```
+docs/                   ← GitHub Pages 用（静的版・会員機能なし）
 public_html/            ← サーバーの公開フォルダにそのまま置く中身
 ├── index.php           トップページ（サイト本体）
 ├── api.php             会員・注文・管理画面の API（PHP + SQLite）

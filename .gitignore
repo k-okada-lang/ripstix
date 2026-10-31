@@ -1,0 +1,9 @@
+# サーバー上で自動作成される会員データ・秘密情報（GitHubには上げない）
+public_html/private/*.sqlite
+public_html/private/*.sqlite-*
+public_html/private/secret.key
+public_html/private/*.log
+
+# macOS / エディタ
+.DS_Store
+*.swp

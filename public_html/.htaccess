@@ -1,0 +1,54 @@
+# ===== RIPSTIX（エックスサーバー用） =====
+DirectoryIndex index.php index.html
+Options -Indexes
+
+# --- 常に https:// で表示する（独自SSLが有効になってから働きます） ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  # サイトマップと robots.txt（ドメインに合わせて自動で作ります）
+  RewriteRule ^sitemap\.xml$ sitemap.php [L]
+  RewriteRule ^robots\.txt$ robots.php [L]
+
+  # /index.php・/index.html は / に統一（検索エンジン向け）
+  RewriteCond %{THE_REQUEST} \s/+((?:[^\s?]*/)?)index\.(?:php|html)[\s?]
+  RewriteRule ^ /%1 [R=301,L]
+</IfModule>
+
+# --- 外から見られては困るファイルを隠す ---
+<FilesMatch "\.(sqlite|sqlite3|db|log|bak|ini|sh|py|md|key)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# --- セキュリティ用のヘッダー ---
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# --- 表示を速くする（圧縮・キャッシュ） ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml text/plain
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+</IfModule>
