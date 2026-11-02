@@ -2342,12 +2342,12 @@ sprayPaint.className='spray-fx';sprayMask.className='spray-fx';sprayMask.style.z
 function sprayFit(){var r=sprayHost.getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1);
   [sprayPaint,sprayMask,sprayTop].forEach(function(c){var w=Math.max(1,Math.round(r.width*dpr)),h=Math.max(1,Math.round(r.height*dpr));if(c.width!==w||c.height!==h){c.width=w;c.height=h}});return dpr}
 /* board coordinates (x across, y from the nose, inches) -> pixels on the overlay, for the 2D drawing or the live 3D model */
-function sprayMapper(){
+function sprayMapper(rail){
   var t=TYPE_BY[cfg.type],o=outline(t,cfg.tail,cfg.W,cfg.L),host=sprayHost.getBoundingClientRect();
   if(T3.ok&&!$('cf3d').hidden){
     var TH=T3.TH,v=new TH.Vector3(),cr=$('cf3d').getBoundingClientRect(),bot=view==='bottom';
     T3.board.updateMatrixWorld(true);
-    return {o:o,map:function(x,y){var u=clamp(y/cfg.L,0,1),th=cfg.T*thick(u);v.set(bot?-x:x,cfg.L/2-y,rocker(cfg,u)+(bot?-0.42:0.62)*th);
+    return {o:o,map:function(x,y){var u=clamp(y/cfg.L,0,1),th=cfg.T*thick(u);v.set(bot?-x:x,cfg.L/2-y,rocker(cfg,u)+(rail?0:(bot?-0.42:0.62)*th));
       v.applyMatrix4(T3.board.matrixWorld).project(T3.cam);return [(v.x+1)/2*cr.width+cr.left-host.left,(1-v.y)/2*cr.height+cr.top-host.top]}};
   }
   var path=svg.querySelector('g > path');if(!path)return null;
@@ -2418,6 +2418,7 @@ function gauss(){var u=1-Math.random(),v=Math.random();return Math.sqrt(-2*Math.
 function sprayStop(){
   var r=SPRAY.run;if(!r)return;SPRAY.run=null;cancelAnimationFrame(r.raf);clearTimeout(r.t1);clearTimeout(r.t2);
   if(!r.applied){r.applied=true;r.apply()}
+  if(r.cleanup)r.cleanup(true);
   [sprayPaint,sprayMask,sprayTop].forEach(function(c){c.getContext('2d').clearRect(0,0,c.width,c.height);c.style.opacity='';c.style.transition='';c.style.transform=''});
 }
 /* the airbrush itself: a slim pen with a needle cap, trigger, gravity cup holding the colour, and its air hose */
@@ -2444,7 +2445,7 @@ function drawAirbrush(tc,tip,rgb,ang,cw,ch){
 function sprayColor(target,hex,apply){
   sprayStop();
   if(!SPRAY.on||reduce||$('custom').hidden){apply();return}
-  var rgb=hexRgb(hex),run={apply:apply,applied:false,raf:0,t1:0,t2:0};SPRAY.run=run;
+  var rgb=hexRgb(hex),run={apply:apply,applied:false,raf:0,t1:0,t2:0,cleanup:null};SPRAY.run=run;
   var needTurn=((target==='bottom'||target==='finColor')!==(view==='bottom'));
   if(needTurn)setView(target==='bottom'||target==='finColor'?'bottom':'deck');
   run.t1=setTimeout(begin,needTurn&&T3.ok&&!$('cf3d').hidden?650:needTurn?260:0);
@@ -2452,69 +2453,101 @@ function sprayColor(target,hex,apply){
     if(SPRAY.run!==run)return;
     var M=sprayMapper(),plan=M&&sprayPlan(target);
     if(!plan||!plan.st.length){sprayStop();return}
-    var dpr=sprayFit(),pc=sprayPaint.getContext('2d'),mc=sprayMask.getContext('2d'),tc=sprayTop.getContext('2d');
-    [pc,mc,tc].forEach(function(c){c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,c.canvas.width/dpr,c.canvas.height/dpr)});
-    var cw=sprayPaint.width/dpr,ch=sprayPaint.height/dpr;
+    var dpr=sprayFit(),tc=sprayTop.getContext('2d');
+    [sprayPaint,sprayMask,sprayTop].forEach(function(c){var x=c.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,c.width/dpr,c.height/dpr)});
+    var cw=sprayPaint.width/dpr,ch=sprayPaint.height/dpr,is3=T3.ok&&!$('cf3d').hidden;
     var MASK=plan.mask?700:0,SP=plan.dur,PEEL=plan.mask?650:0;
+    /* WHERE the paint goes. In 2D it is drawn over the flat drawing. In 3D it is painted straight onto the board's own
+       surface (a paint layer wrapped on the model), so it follows the rails and curves at any angle and can't spill. */
+    var PS=null,g3=null,finCols=null;
+    if(!is3){
+      PS={pc:sprayPaint.getContext('2d'),mc:sprayMask.getContext('2d'),map:function(x,y){return M.map(x,y)},
+        sc:function(p,rs){var a=M.map(p[0],p[1]),b=M.map(p[0]+plan.Rin*rs,p[1]);return clamp(Math.hypot(b[0]-a[0],b[1]-a[1]),3,90)},refresh:function(){M=sprayMapper()||M},done:function(){}};
+    }else if(target!=='finColor'){
+      var TH=T3.TH,pad=2,W=cfg.W,L=cfg.L,s=Math.min(24,2048/(L+2*pad)),TW=Math.round((W+2*pad)*s),THh=Math.round((L+2*pad)*s);
+      var pcv=document.createElement('canvas'),mcv=document.createElement('canvas');pcv.width=mcv.width=TW;pcv.height=mcv.height=THh;
+      var ptx=new TH.CanvasTexture(pcv),mtx=new TH.CanvasTexture(mcv);[ptx,mtx].forEach(function(t){t.encoding=TH.sRGBEncoding;t.anisotropy=T3.r.capabilities.getMaxAnisotropy()});
+      var src=T3.meshes[target==='bottom'?1:0];
+      function layer(tx,off){return new TH.Mesh(src.geometry.clone(),new TH.MeshPhysicalMaterial({map:tx,transparent:true,depthWrite:false,roughness:.42,clearcoat:1,clearcoatRoughness:.08,side:TH.DoubleSide,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:off}))}
+      g3=new TH.Group();var lp=layer(ptx,-4),lm=layer(mtx,-8);lp.renderOrder=5;lm.renderOrder=6;g3.add(lp);g3.add(lm);T3.board.parent.add(g3);
+      var sync=function(){var b=T3.board;g3.position.copy(b.position);g3.quaternion.copy(b.quaternion);g3.scale.copy(b.scale)};sync();
+      PS={pc:pcv.getContext('2d'),mc:mcv.getContext('2d'),map:function(x,y){return [(x*0.985+W/2+pad)*s,(y+pad)*s]},
+        sc:function(p,rs){return plan.Rin*rs*s},refresh:sync,done:function(){ptx.needsUpdate=true;mtx.needsUpdate=true},lp:lp,lm:lm};
+      PS.o=M.o;
+    }else{
+      /* fins in 3D: the fins themselves change colour pass by pass */
+      finCols=[];var nc=new T3.TH.Color(hex).convertSRGBToLinear();
+      T3.board.children.forEach(function(m){if(m.geometry&&m.geometry.type==='ExtrudeGeometry'&&finCols.indexOf(m.material)<0)finCols.push(m.material)});
+      finCols=finCols.map(function(mt){return {m:mt,a:mt.color.clone(),b:nc}});
+    }
+    run.cleanup=function(){if(g3){g3.parent&&g3.parent.remove(g3);g3.children.forEach(function(m){m.geometry.dispose();if(m.material.map)m.material.map.dispose();m.material.dispose()});g3=null}};
     /* the gun moves at an even speed while spraying and quickly between passes */
-    var st=plan.st,cum=[0];st.forEach(function(s,i){var l=Math.hypot(s.b[0]-s.a[0],s.b[1]-s.a[1]);s.len=l;cum.push(cum[i]+(s.on?l:l*0.3))});
-    var WT=cum[cum.length-1]||1,t0=performance.now(),prevW=0,maskDone=false,stamps=0;
+    var st=plan.st,cum=[0],onLen=0;st.forEach(function(s,i){var l=Math.hypot(s.b[0]-s.a[0],s.b[1]-s.a[1]);s.len=l;cum.push(cum[i]+(s.on?l:l*0.3));if(s.on)onLen+=l});
+    var WT=cum[cum.length-1]||1,t0=performance.now(),prevW=0,maskDone=false,onDone=0;
     function posAt(w){var j=0;while(j<st.length-1&&cum[j+1]<w)j++;var s=st[j],f=clamp((w-cum[j])/((cum[j+1]-cum[j])||1),0,1);return {s:s,p:[lerp(s.a[0],s.b[0],f),lerp(s.a[1],s.b[1],f)]}}
-    function boardPath(M2){var pth=new Path2D();M2.o.pts.forEach(function(p,ix){var q=M2.map(p[0],p[1]);ix?pth.lineTo(q[0],q[1]):pth.moveTo(q[0],q[1])});pth.closePath();return pth}
-    function polyPath(M2,polys){var pth=new Path2D();polys.forEach(function(poly){poly.forEach(function(p,ix){var q=M2.map(p[0],p[1]);ix?pth.lineTo(q[0],q[1]):pth.moveTo(q[0],q[1])});pth.closePath()});return pth}
-    function pxR(M2,p,rs){var a=M2.map(p[0],p[1]),b=M2.map(p[0]+plan.Rin*rs,p[1]);return clamp(Math.hypot(b[0]-a[0],b[1]-a[1]),3,90)}
+    function path(mapf,pts){var p=new Path2D();pts.forEach(function(q,ix){var r=mapf(q[0],q[1]);ix?p.lineTo(r[0],r[1]):p.moveTo(r[0],r[1])});p.closePath();return p}
+    function polys(mapf,list){var p=new Path2D();list.forEach(function(pts){pts.forEach(function(q,ix){var r=mapf(q[0],q[1]);ix?p.lineTo(r[0],r[1]):p.moveTo(r[0],r[1])});p.closePath()});return p}
     function label(t){tc.save();tc.font='700 11px '+getComputedStyle(document.body).fontFamily;var w=tc.measureText(t).width+20;
       tc.fillStyle='rgba(13,34,48,.82)';tc.beginPath();tc.roundRect?tc.roundRect(12,12,w,24,12):tc.rect(12,12,w,24);tc.fill();tc.fillStyle='#fff';tc.textBaseline='middle';tc.fillText(t,22,24.5);tc.restore()}
     /* masking: tape laid along the line, then paper over the side that stays clean */
-    function drawMask(M2,f){
-      var m=plan.mask;mc.clearRect(0,0,cw,ch);
+    function drawMask(f){
+      var m=plan.mask,mc=PS.mc,mp=PS.map,bp=path(mp,M.o.pts);mc.clearRect(0,0,mc.canvas.width,mc.canvas.height);
       var pf=clamp((f-0.6)/0.4,0,1);
-      if(pf>0){mc.save();mc.clip(boardPath(M2));mc.globalAlpha=pf;mc.fillStyle='#e7dcc3';mc.fill(polyPath(M2,[m.paper]));
-        mc.globalAlpha=pf*0.35;mc.strokeStyle='#cbb994';mc.lineWidth=1;for(var k=1;k<6;k++){var y=cfg.L*(0.36+k*0.12),a=M2.map(-cfg.W,y),b=M2.map(cfg.W,y+1.5);mc.beginPath();mc.moveTo(a[0],a[1]);mc.lineTo(b[0],b[1]);mc.stroke()}
+      if(pf>0){mc.save();mc.clip(bp);mc.globalAlpha=pf;mc.fillStyle='#e7dcc3';mc.fill(polys(mp,[m.paper]));
+        mc.globalAlpha=pf*0.35;mc.strokeStyle='#cbb994';mc.lineWidth=1;for(var k=1;k<6;k++){var y=cfg.L*(0.36+k*0.12),a=mp(-cfg.W,y),b=mp(cfg.W,y+1.5);mc.beginPath();mc.moveTo(a[0],a[1]);mc.lineTo(b[0],b[1]);mc.stroke()}
         mc.restore()}
       var tf=clamp(f/0.6,0,1),a=m.line[0],b=m.line[1],e=[lerp(a[0],b[0],tf),lerp(a[1],b[1],tf)];
-      var p0=M2.map(a[0],a[1]),p1=M2.map(e[0],e[1]),p0b=M2.map(a[0],a[1]+m.tw),p1b=M2.map(e[0],e[1]+m.tw);
-      mc.save();mc.clip(boardPath(M2));                 /* tape stays on the board */
+      var p0=mp(a[0],a[1]),p1=mp(e[0],e[1]),p0b=mp(a[0],a[1]+m.tw),p1b=mp(e[0],e[1]+m.tw);
+      mc.save();mc.clip(bp);                 /* tape stays on the board */
       mc.fillStyle='#d9c27c';mc.beginPath();mc.moveTo(p0[0],p0[1]);mc.lineTo(p1[0],p1[1]);mc.lineTo(p1b[0],p1b[1]);mc.lineTo(p0b[0],p0b[1]);mc.closePath();mc.fill();
       mc.strokeStyle='rgba(120,96,40,.45)';mc.lineWidth=0.8;mc.beginPath();mc.moveTo(p0[0],p0[1]);mc.lineTo(p1[0],p1[1]);mc.stroke();mc.restore();
-      if(tf<1){mc.fillStyle='#bfa75e';mc.beginPath();mc.arc((p1[0]+p1b[0])/2,(p1[1]+p1b[1])/2,Math.max(4,Math.hypot(p1b[0]-p1[0],p1b[1]-p1[1])*0.9),0,Math.PI*2);mc.fill()}  /* the roll */
+      PS.done();
+      if(tf<1){var r1=M.map(e[0],e[1]+m.tw/2),r0=M.map(e[0],e[1]),rr=Math.max(4,Math.hypot(r1[0]-r0[0],r1[1]-r0[1])*1.8);tc.fillStyle='#bfa75e';tc.beginPath();tc.arc(r1[0],r1[1],rr,0,Math.PI*2);tc.fill();tc.fillStyle='#8a7740';tc.beginPath();tc.arc(r1[0],r1[1],rr*0.45,0,Math.PI*2);tc.fill()}  /* the roll */
     }
     function stamp(x,y,R,a){
-      var g=pc.createRadialGradient(x,y,0,x,y,R);
+      var pc=PS.pc,g=pc.createRadialGradient(x,y,0,x,y,R);
       g.addColorStop(0,'rgba('+rgb+','+a+')');g.addColorStop(0.35,'rgba('+rgb+','+(a*0.72)+')');g.addColorStop(0.7,'rgba('+rgb+','+(a*0.24)+')');g.addColorStop(1,'rgba('+rgb+',0)');
       pc.fillStyle=g;pc.beginPath();pc.arc(x,y,R,0,Math.PI*2);pc.fill();
       pc.fillStyle='rgba('+rgb+','+Math.min(1,a*1.7)+')';
       for(var d=0;d<14;d++){var dx=gauss()*R*0.38,dy=gauss()*R*0.38;pc.beginPath();pc.arc(x+dx,y+dy,Math.random()*0.5+0.2,0,Math.PI*2);pc.fill()}
-      if(plan.mask){mc.save();mc.globalCompositeOperation='source-atop';mc.fillStyle=g;mc.globalAlpha=0.3;mc.beginPath();mc.arc(x,y,R,0,Math.PI*2);mc.fill();mc.restore()}  /* overspray lands on the tape and paper */
+      if(plan.mask){var mc=PS.mc;mc.save();mc.globalCompositeOperation='source-atop';mc.fillStyle=g;mc.globalAlpha=0.3;mc.beginPath();mc.arc(x,y,R,0,Math.PI*2);mc.fill();mc.restore()}  /* overspray lands on the tape and paper */
     }
     function frame(now){
       if(SPRAY.run!==run)return;
       run.raf=requestAnimationFrame(frame);
       if(T3.ok)T3.lastInt=now;                       /* hold the 3D board still while it is being painted */
-      var t=Math.max(0,now-t0),M2=sprayMapper();if(!M2)return;
+      var t=Math.max(0,now-t0),M2=sprayMapper();if(!M2)return;M=M2;if(PS)PS.refresh();
       tc.clearRect(0,0,cw,ch);
-      if(MASK&&t<MASK){drawMask(M2,t/MASK);label('マスキング');return}
-      if(plan.mask&&!maskDone){drawMask(M2,1);maskDone=true}
+      if(MASK&&t<MASK){if(PS)drawMask(t/MASK);label('マスキング');return}
+      if(plan.mask&&!maskDone&&PS){drawMask(1);maskDone=true}
       var k=clamp((t-MASK)/SP,0,1),w=k*WT;
       if(k<1||prevW<WT){
-        var clipP=boardPath(M2),reg=plan.clip==='board'?null:polyPath(M2,plan.clip);
-        pc.save();pc.clip(clipP);if(reg)pc.clip(reg);
-        /* walk the gun along the passes since the last frame, so nothing is skipped at any frame rate */
-        var cur=posAt(w),Rnow=pxR(M2,cur.p,cur.s.rs),stepIn=plan.Rin*0.2,n=Math.min(500,Math.ceil((w-prevW)/stepIn));
-        for(var i=1;i<=n;i++){var q=posAt(prevW+(w-prevW)*i/n);if(!q.s.on)continue;
-          var sp=M2.map(q.p[0],q.p[1]),R=pxR(M2,q.p,q.s.rs),a=0.19*q.s.al/(q.s.rs*q.s.rs);
-          sp=[sp[0]+Math.sin((now+i)/83)*R*0.04,sp[1]+Math.cos((now+i)/71)*R*0.04];
-          stamp(sp[0],sp[1],R,a);stamps++}
-        pc.restore();prevW=w;
+        var cur=posAt(w);
+        if(PS){
+          var pc=PS.pc,bp=path(PS.map,M.o.pts),reg=plan.clip==='board'?null:polys(PS.map,plan.clip);
+          pc.save();pc.clip(bp);if(reg)pc.clip(reg);
+          /* walk the gun along the passes since the last frame, so nothing is skipped at any frame rate */
+          var stepIn=plan.Rin*0.2,n=Math.min(600,Math.ceil((w-prevW)/stepIn));
+          for(var i=1;i<=n;i++){var q=posAt(prevW+(w-prevW)*i/n);if(!q.s.on)continue;
+            var sp=PS.map(q.p[0],q.p[1]),R=PS.sc(q.p,q.s.rs),a=0.19*q.s.al/(q.s.rs*q.s.rs);
+            stamp(sp[0]+Math.sin((now+i)/83)*R*0.04,sp[1]+Math.cos((now+i)/71)*R*0.04,R,a)}
+          pc.restore();PS.done();
+        }else if(finCols){
+          for(var j=0,c0=0;j<st.length;j++){var c1=cum[j+1];if(st[j].on)onDone+=Math.max(0,Math.min(w,c1)-Math.max(prevW,cum[j]))}
+          var f=clamp(onDone/(onLen||1),0,1);finCols.forEach(function(fc){fc.m.color.copy(fc.a).lerp(fc.b,f)});
+        }
+        prevW=w;
         if(k<1){
-          var n0=M2.map(cur.p[0],cur.p[1]),ang=cur.s.ang,dist=Rnow*1.1+14*cur.s.rs,tip=[n0[0]+Math.cos(ang)*dist,n0[1]+Math.sin(ang)*dist];
+          var n0=M.map(cur.p[0],cur.p[1]),Rnow=(function(){var b=M.map(cur.p[0]+plan.Rin*cur.s.rs,cur.p[1]);return clamp(Math.hypot(b[0]-n0[0],b[1]-n0[1]),3,90)})();
+          var ang=cur.s.ang,dist=Rnow*1.1+14*cur.s.rs,tip=[n0[0]+Math.cos(ang)*dist,n0[1]+Math.sin(ang)*dist];
           if(cur.s.on){
-            tc.save();tc.clip(clipP);if(reg&&!plan.mask)tc.clip(reg);   /* the mist only shows where it lands on the board */
+            /* the mist only shows where it lands on the board (its real edge, the rail line, in 3D) */
+            var MR=is3?sprayMapper(true):M;tc.save();tc.clip(path(MR.map,MR.o.pts));if(plan.clip!=='board'&&!plan.mask&&target!=='finColor')tc.clip(polys(MR.map,plan.clip));
             var dx2=n0[0]-tip[0],dy2=n0[1]-tip[1],dl=Math.hypot(dx2,dy2)||1,ux=dx2/dl,uy=dy2/dl,px=-uy,py=ux,spn=Rnow*0.5;
             var cone=tc.createLinearGradient(tip[0],tip[1],n0[0],n0[1]);cone.addColorStop(0,'rgba('+rgb+',0.5)');cone.addColorStop(1,'rgba('+rgb+',0.05)');
             tc.fillStyle=cone;tc.beginPath();tc.moveTo(tip[0],tip[1]);tc.lineTo(n0[0]+px*spn+ux*Rnow*0.15,n0[1]+py*spn+uy*Rnow*0.15);tc.lineTo(n0[0]-px*spn+ux*Rnow*0.15,n0[1]-py*spn+uy*Rnow*0.15);tc.closePath();tc.fill();
             tc.fillStyle='rgba('+rgb+',0.55)';
-            for(var qq=0;qq<12;qq++){var f=Math.random(),ww=(Math.random()-0.5)*2*spn*f;tc.beginPath();tc.arc(tip[0]+dx2*f+px*ww,tip[1]+dy2*f+py*ww,0.45,0,Math.PI*2);tc.fill()}
+            for(var qq=0;qq<12;qq++){var ff=Math.random(),ww=(Math.random()-0.5)*2*spn*ff;tc.beginPath();tc.arc(tip[0]+dx2*ff+px*ww,tip[1]+dy2*ff+py*ww,0.45,0,Math.PI*2);tc.fill()}
             tc.restore();
           }
           var flip=Math.cos(ang)<0;tc.save();if(flip){tc.translate(tip[0],0);tc.scale(-1,1);tc.translate(-tip[0],0)}
@@ -2522,18 +2555,28 @@ function sprayColor(target,hex,apply){
           label(cur.s.lab);return;
         }
       }
-      /* finished: the real render takes over, the tape and paper come off, the overlay fades */
+      /* finished: the real render takes over, the tape and paper come off, the paint layer fades */
       cancelAnimationFrame(run.raf);run.raf=0;tc.clearRect(0,0,cw,ch);
-      SPRAY.lastStamps=stamps;
+      var oldD=is3&&T3.deckMat.map,oldB=is3&&T3.botMat.map;
       run.applied=true;run.apply();
-      if(PEEL){label('テープをはがす');sprayMask.style.transition='opacity '+PEEL+'ms ease, transform '+PEEL+'ms cubic-bezier(.3,.6,.4,1)';sprayMask.style.transform='translate(10px,-14px) rotate(-1.2deg)';sprayMask.style.opacity='0'}
-      run.t2=setTimeout(function(){
-        if(SPRAY.run!==run)return;tc.clearRect(0,0,cw,ch);
-        sprayPaint.style.transition='opacity .45s ease';sprayPaint.style.opacity='0';
-        run.t2=setTimeout(function(){if(SPRAY.run!==run)return;SPRAY.run=null;
-          [sprayPaint,sprayMask].forEach(function(c){c.getContext('2d').clearRect(0,0,c.width,c.height);c.style.transition='';c.style.opacity='';c.style.transform=''})},480);
-      },PEEL?PEEL:(T3.ok&&!$('cf3d').hidden?420:80));
+      if(PEEL){label('テープをはがす');
+        if(is3)fadeMat(PS.lm.material,PEEL);
+        else{sprayMask.style.transition='opacity '+PEEL+'ms ease, transform '+PEEL+'ms cubic-bezier(.3,.6,.4,1)';sprayMask.style.transform='translate(10px,-14px) rotate(-1.2deg)';sprayMask.style.opacity='0'}}
+      var waited=0;
+      (function fadeWhenReady(){
+        if(SPRAY.run!==run)return;
+        /* in 3D, keep the paint layer until the new finish has actually loaded onto the model */
+        if(is3&&g3&&waited<1600&&T3.deckMat.map===oldD&&T3.botMat.map===oldB){waited+=60;run.t2=setTimeout(fadeWhenReady,60);return}
+        run.t2=setTimeout(function(){
+          if(SPRAY.run!==run)return;tc.clearRect(0,0,cw,ch);
+          if(g3)fadeMat(PS.lp.material,450);
+          sprayPaint.style.transition='opacity .45s ease';sprayPaint.style.opacity='0';
+          run.t2=setTimeout(function(){if(SPRAY.run!==run)return;SPRAY.run=null;run.cleanup();
+            [sprayPaint,sprayMask].forEach(function(c){c.getContext('2d').clearRect(0,0,c.width,c.height);c.style.transition='';c.style.opacity='';c.style.transform=''})},480);
+        },PEEL?Math.max(0,PEEL-waited):(is3?60:80));
+      })();
     }
+    function fadeMat(mt,ms){var a0=performance.now();(function f(now){if(!g3)return;var k=clamp((now-a0)/ms,0,1);mt.opacity=1-k;if(k<1)requestAnimationFrame(f)})(a0)}
     run.raf=requestAnimationFrame(frame);
   }
 }
