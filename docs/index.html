@@ -2473,8 +2473,9 @@ function sprayColor(target,hex,apply){
         mc.restore()}
       var tf=clamp(f/0.6,0,1),a=m.line[0],b=m.line[1],e=[lerp(a[0],b[0],tf),lerp(a[1],b[1],tf)];
       var p0=M2.map(a[0],a[1]),p1=M2.map(e[0],e[1]),p0b=M2.map(a[0],a[1]+m.tw),p1b=M2.map(e[0],e[1]+m.tw);
+      mc.save();mc.clip(boardPath(M2));                 /* tape stays on the board */
       mc.fillStyle='#d9c27c';mc.beginPath();mc.moveTo(p0[0],p0[1]);mc.lineTo(p1[0],p1[1]);mc.lineTo(p1b[0],p1b[1]);mc.lineTo(p0b[0],p0b[1]);mc.closePath();mc.fill();
-      mc.strokeStyle='rgba(120,96,40,.45)';mc.lineWidth=0.8;mc.beginPath();mc.moveTo(p0[0],p0[1]);mc.lineTo(p1[0],p1[1]);mc.stroke();
+      mc.strokeStyle='rgba(120,96,40,.45)';mc.lineWidth=0.8;mc.beginPath();mc.moveTo(p0[0],p0[1]);mc.lineTo(p1[0],p1[1]);mc.stroke();mc.restore();
       if(tf<1){mc.fillStyle='#bfa75e';mc.beginPath();mc.arc((p1[0]+p1b[0])/2,(p1[1]+p1b[1])/2,Math.max(4,Math.hypot(p1b[0]-p1[0],p1b[1]-p1[1])*0.9),0,Math.PI*2);mc.fill()}  /* the roll */
     }
     function stamp(x,y,R,a){
@@ -2507,11 +2508,13 @@ function sprayColor(target,hex,apply){
         if(k<1){
           var n0=M2.map(cur.p[0],cur.p[1]),ang=cur.s.ang,dist=Rnow*1.1+14*cur.s.rs,tip=[n0[0]+Math.cos(ang)*dist,n0[1]+Math.sin(ang)*dist];
           if(cur.s.on){
+            tc.save();tc.clip(clipP);if(reg&&!plan.mask)tc.clip(reg);   /* the mist only shows where it lands on the board */
             var dx2=n0[0]-tip[0],dy2=n0[1]-tip[1],dl=Math.hypot(dx2,dy2)||1,ux=dx2/dl,uy=dy2/dl,px=-uy,py=ux,spn=Rnow*0.5;
             var cone=tc.createLinearGradient(tip[0],tip[1],n0[0],n0[1]);cone.addColorStop(0,'rgba('+rgb+',0.5)');cone.addColorStop(1,'rgba('+rgb+',0.05)');
             tc.fillStyle=cone;tc.beginPath();tc.moveTo(tip[0],tip[1]);tc.lineTo(n0[0]+px*spn+ux*Rnow*0.15,n0[1]+py*spn+uy*Rnow*0.15);tc.lineTo(n0[0]-px*spn+ux*Rnow*0.15,n0[1]-py*spn+uy*Rnow*0.15);tc.closePath();tc.fill();
             tc.fillStyle='rgba('+rgb+',0.55)';
             for(var qq=0;qq<12;qq++){var f=Math.random(),ww=(Math.random()-0.5)*2*spn*f;tc.beginPath();tc.arc(tip[0]+dx2*f+px*ww,tip[1]+dy2*f+py*ww,0.45,0,Math.PI*2);tc.fill()}
+            tc.restore();
           }
           var flip=Math.cos(ang)<0;tc.save();if(flip){tc.translate(tip[0],0);tc.scale(-1,1);tc.translate(-tip[0],0)}
           drawAirbrush(tc,tip,rgb,flip?Math.PI-ang:ang,cw,ch);tc.restore();
