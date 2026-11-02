@@ -1058,7 +1058,7 @@ mark{background:#ffe7a3;color:inherit;border-radius:3px;padding:0 1px}
           <div class="group"><div class="gl">RIPSTIXの実例から</div><div class="presets" id="oPreset"></div></div>
           <div class="group"><div class="gl">Pattern<output id="oPatv"></output></div><div class="opts" id="oPat"></div></div>
           <div class="group"><div class="gl">塗る場所</div><div class="targets" id="oTarget"></div></div>
-          <div class="group spray-sw"><label class="toggle" for="sprayOn"><input type="checkbox" id="sprayOn" checked> スプレーで塗る演出<small>オフにすると色がすぐに反映されます</small></label></div>
+          <div class="group spray-sw"><label class="toggle" for="sprayOn"><input type="checkbox" id="sprayOn" checked> エアブラシで塗る演出<small>オフにすると色がすぐに反映されます</small></label></div>
           <div class="group">
             <div class="sw" id="oSw"></div>
             <label class="picker" for="cPick">自由に選ぶ <input type="color" id="cPick" value="#ffffff"> <code id="cHex">#FFFFFF</code></label>
@@ -2328,9 +2328,9 @@ function stopShape(instant){
 $('fxSkip').addEventListener('click',function(){stopShape(false)});
 $('replayShape').addEventListener('click',function(){FX.last=JSON.stringify(cfg);playShape()});
 
-/* ================= SPRAY PAINT EFFECT =================
-   When a colour is picked, a spray gun passes over the part being painted and the new colour builds up
-   in mist and droplets; then the real render takes over. With the switch off, colours apply instantly. */
+/* ================= AIRBRUSH PAINT EFFECT =================
+   When a colour is picked, an airbrush passes over the part being painted in close, even strokes and the
+   new colour builds up as a fine mist; then the real render takes over. With the switch off, colours apply instantly. */
 var SPRAY={on:!reduce,run:null};
 try{var _sp=localStorage.getItem('ripstix-spray');if(_sp==='0')SPRAY.on=false;else if(_sp==='1')SPRAY.on=true}catch(e){}
 var sprayHost=document.querySelector('.cf-canvas');
@@ -2352,27 +2352,27 @@ function sprayMapper(){
   var m=path.getScreenCTM(),pt=svg.createSVGPoint();if(!m)return null;
   return {o:o,map:function(x,y){pt.x=x;pt.y=y;var q=pt.matrixTransform(m);return [q.x-host.left,q.y-host.top]}};
 }
-/* the area that colour actually covers, and the path the spray gun follows over it */
+/* the area that colour actually covers, and the path the airbrush follows over it (close, overlapping passes) */
 function sprayPlan(target,M){
   var P=M.o.P,L=cfg.L,W=cfg.W;
   function span(v0,v1){var a=[],b=[];for(var k=0;k<=32;k++){var y=L*(v0+(v1-v0)*k/32),hw=P.hw(y);a.push([hw,y]);b.push([-hw,y])}return a.concat(b.reverse())}
-  function zig(v0,v1,n){var p=[],y,k;for(k=0;k<=n;k++){y=L*(v0+(v1-v0)*k/n);var hw=Math.max(P.hw(y),W*0.08)*1.08;p.push(k%2?[hw,y]:[-hw,y]);p.push(k%2?[-hw,y]:[hw,y])}return p}
-  function passes(v0,v1){return Math.max(3,Math.min(22,Math.round((v1-v0)*L/(W*0.24))))}
+  function zig(v0,v1,n){var p=[],y,k;for(k=0;k<=n;k++){y=L*(v0+(v1-v0)*k/n);var hw=Math.max(P.hw(y),W*0.08)*1.06;p.push(k%2?[hw,y]:[-hw,y]);p.push(k%2?[-hw,y]:[hw,y])}return p}
+  function passes(v0,v1){return Math.max(4,Math.min(30,Math.round((v1-v0)*L/(W*0.17))))}
   if(target==='accent'&&cfg.pat==='railfade'){
     var polys=[],path=[];[-1,1].forEach(function(s,si){var a=[],b=[];for(var k=0;k<=40;k++){var y=L*k/40,hw=P.hw(y);a.push([s*hw*1.02,y]);b.push([s*hw*0.5,y])}polys.push(a.concat(b.reverse()))});
     for(var k=0;k<=24;k++){var y=L*k/24;path.push([-P.hw(y)*0.8,y])}for(k=24;k>=0;k--){y=L*k/24;path.push([P.hw(y)*0.8,y])}
-    return {polys:polys,path:path,dur:1500};
+    return {polys:polys,path:path,dur:1700};
   }
-  if(target==='accent'&&cfg.pat==='dip')return {polys:[span(0,0.19),span(0.8,1)],path:zig(0,0.19,3).concat(zig(0.8,1,3)),dur:1300};
-  if(target==='accent'&&cfg.pat==='twotone')return {polys:[span(0,0.3)],path:zig(0,0.3,passes(0,0.3)),dur:1200};
-  if(target==='accent'&&cfg.pat==='grad')return {polys:[span(0,0.55)],path:zig(0,0.55,passes(0,0.55)),dur:1300,fade:true};
+  if(target==='accent'&&cfg.pat==='dip')return {polys:[span(0,0.19),span(0.8,1)],path:zig(0,0.19,4).concat(zig(0.8,1,4)),dur:1500};
+  if(target==='accent'&&cfg.pat==='twotone')return {polys:[span(0,0.3)],path:zig(0,0.3,passes(0,0.3)),dur:1400};
+  if(target==='accent'&&cfg.pat==='grad')return {polys:[span(0,0.55)],path:zig(0,0.55,passes(0,0.55)),dur:1500,fade:true};
   if(target==='finColor'){
     var fs=finsFor(cfg,P).filter(function(f){return !f.box});if(!fs.length)return null;
     var fp=fs.map(function(f){var l=f.len/2+0.6,w=(f.big?0.9:0.6);return [[f.x-w,f.y-l],[f.x+w,f.y-l],[f.x+w,f.y+l],[f.x-w,f.y+l]]});
     var pth=[];fs.forEach(function(f){pth.push([f.x,f.y-f.len/2-0.4],[f.x,f.y+f.len/2+0.4])});
-    return {polys:fp,path:pth,dur:900,small:true};
+    return {polys:fp,path:pth,dur:1000,small:true};
   }
-  return {polys:[M.o.pts],path:zig(0,1,passes(0,1)),dur:1800};
+  return {polys:[M.o.pts],path:zig(0,1,passes(0,1)),dur:2000};
 }
 function hexRgb(h){var n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255]}
 function gauss(){var u=1-Math.random(),v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
@@ -2380,6 +2380,26 @@ function sprayStop(){
   var r=SPRAY.run;if(!r)return;SPRAY.run=null;cancelAnimationFrame(r.raf);clearTimeout(r.t1);clearTimeout(r.t2);
   if(!r.applied){r.applied=true;r.apply()}
   [sprayPaint,sprayTop].forEach(function(c){c.getContext('2d').clearRect(0,0,c.width,c.height);c.style.opacity=''});
+}
+/* the airbrush itself: a slim pen with a needle cap, trigger, gravity cup holding the colour, and its air hose */
+function drawAirbrush(tc,tip,rgb,ang,cw,ch){
+  var ca=Math.cos(ang),sa=Math.sin(ang),bx=tip[0]+ca*84,by=tip[1]+sa*84;
+  /* a short length of air hose trailing from the back of the pen, fading out */
+  var hx=bx+ca*30+60,hy=by+sa*30+70,hg=tc.createLinearGradient(bx,by,hx,hy);hg.addColorStop(0,'rgba(20,28,33,.75)');hg.addColorStop(1,'rgba(20,28,33,0)');
+  tc.strokeStyle=hg;tc.lineWidth=3;tc.lineCap='round';tc.beginPath();tc.moveTo(bx,by);tc.bezierCurveTo(bx+ca*30,by+sa*30,bx+ca*30+30,by+sa*30+10,hx,hy);tc.stroke();
+  tc.save();tc.translate(tip[0],tip[1]);tc.rotate(ang);
+  var met=tc.createLinearGradient(0,-5,0,5);met.addColorStop(0,'#e9eef1');met.addColorStop(0.45,'#a9b4ba');met.addColorStop(1,'#56626a');
+  tc.fillStyle='#3a454c';tc.beginPath();tc.moveTo(0,0);tc.lineTo(9,-2.6);tc.lineTo(9,2.6);tc.closePath();tc.fill();                 /* needle cap */
+  tc.fillStyle=met;tc.beginPath();tc.moveTo(9,-2.6);tc.lineTo(16,-4.6);tc.lineTo(16,4.6);tc.lineTo(9,2.6);tc.closePath();tc.fill();  /* nozzle */
+  tc.beginPath();tc.roundRect?tc.roundRect(16,-4.6,52,9.2,3):tc.rect(16,-4.6,52,9.2);tc.fill();                                     /* body */
+  tc.fillStyle='rgba(255,255,255,.55)';tc.fillRect(18,-3.4,48,1.2);                                                                    /* highlight */
+  tc.fillStyle='#2a3338';tc.beginPath();tc.roundRect?tc.roundRect(33,-9.5,6,5.2,1.5):tc.rect(33,-9.5,6,5.2);tc.fill();               /* trigger */
+  tc.fillStyle='#2a3338';tc.beginPath();tc.roundRect?tc.roundRect(68,-4,16,8,2.5):tc.rect(68,-4,16,8);tc.fill();                     /* handle */
+  /* gravity cup on top, filled with the colour */
+  var cup=tc.createLinearGradient(17,0,31,0);cup.addColorStop(0,'#8f9aa1');cup.addColorStop(0.4,'#dfe5e8');cup.addColorStop(1,'#6b777e');
+  tc.fillStyle=cup;tc.strokeStyle='#56626a';tc.lineWidth=0.8;tc.beginPath();tc.moveTo(21,-4.4);tc.lineTo(17.5,-11);tc.lineTo(30.5,-11);tc.lineTo(27,-4.4);tc.closePath();tc.fill();tc.stroke();
+  tc.fillStyle='rgb('+rgb+')';tc.beginPath();tc.ellipse(24,-11,6.5,2.2,0,0,Math.PI*2);tc.fill();tc.stroke();
+  tc.restore();
 }
 /* paint target with colour hex, then run apply() */
 function sprayColor(target,hex,apply){
@@ -2395,7 +2415,8 @@ function sprayColor(target,hex,apply){
     if(!plan){sprayStop();return}
     var dpr=sprayFit(),pc=sprayPaint.getContext('2d'),tc=sprayTop.getContext('2d');
     pc.setTransform(dpr,0,0,dpr,0,0);tc.setTransform(dpr,0,0,dpr,0,0);pc.clearRect(0,0,sprayPaint.width,sprayPaint.height);
-    /* path length in board units, so the gun moves at an even speed */
+    var cw=sprayPaint.width/dpr,ch=sprayPaint.height/dpr;
+    /* path length in board units, so the airbrush moves at an even speed */
     var path=plan.path,cum=[0];for(var i=1;i<path.length;i++)cum.push(cum[i-1]+Math.hypot(path[i][0]-path[i-1][0],path[i][1]-path[i-1][1]));
     var total=cum[cum.length-1]||1,t0=performance.now(),last=t0,prev=null;
     function at(d){var j=1;while(j<cum.length-1&&cum[j]<d)j++;var s=(d-cum[j-1])/((cum[j]-cum[j-1])||1);return [lerp(path[j-1][0],path[j][0],s),lerp(path[j-1][1],path[j][1],s)]}
@@ -2403,43 +2424,45 @@ function sprayColor(target,hex,apply){
       if(SPRAY.run!==run)return;
       run.raf=requestAnimationFrame(frame);
       if(T3.ok)T3.lastInt=now;                       /* hold the 3D board still while it is being painted */
-      var k=Math.min(1,(now-t0)/plan.dur),dt=Math.min(40,now-last);last=now;
+      var k=Math.min(1,(now-t0)/plan.dur);last=now;
       var M2=sprayMapper();if(!M2)return;
       var clip=new Path2D();plan.polys.forEach(function(poly){poly.forEach(function(p,ix){var q=M2.map(p[0],p[1]);ix?clip.lineTo(q[0],q[1]):clip.moveTo(q[0],q[1])});clip.closePath()});
-      var b=at(k*total),n=M2.map(b[0],b[1]),r0=M2.map(0,b[1]),r1=M2.map(cfg.W*(plan.small?0.09:0.2),b[1]);
-      var R=clamp(Math.hypot(r1[0]-r0[0],r1[1]-r0[1]),plan.small?6:12,plan.small?26:80);
+      var b=at(k*total),n=M2.map(b[0],b[1]),r0=M2.map(0,b[1]),r1=M2.map(cfg.W*(plan.small?0.07:0.15),b[1]);
+      var R=clamp(Math.hypot(r1[0]-r0[0],r1[1]-r0[1]),plan.small?5:9,plan.small?18:56);
+      /* the hand is never perfectly steady */
+      n=[n[0]+Math.sin(now/83)*R*0.05,n[1]+Math.cos(now/71)*R*0.05];
       /* fill the distance travelled since the last frame so fast passes leave no gaps */
-      var steps=prev?Math.max(1,Math.ceil(Math.hypot(n[0]-prev[0],n[1]-prev[1])/(R*0.35))):1;
+      var steps=prev?Math.max(1,Math.ceil(Math.hypot(n[0]-prev[0],n[1]-prev[1])/(R*0.22))):1;
+      var a=plan.fade?0.34*Math.max(0,1-b[1]/(cfg.L*0.55)):0.34;
       pc.save();pc.clip(clip);
       for(var s=1;s<=steps;s++){
         var x=prev?lerp(prev[0],n[0],s/steps):n[0],y=prev?lerp(prev[1],n[1],s/steps):n[1];
-        var a=plan.fade?0.42*(1-b[1]/(cfg.L*0.55)):0.42,g=pc.createRadialGradient(x,y,0,x,y,R);
-        g.addColorStop(0,'rgba('+rgb+','+a+')');g.addColorStop(0.55,'rgba('+rgb+','+(a*0.55)+')');g.addColorStop(1,'rgba('+rgb+',0)');
+        /* soft, feathered mist: dense in the middle, fading smoothly to nothing */
+        var g=pc.createRadialGradient(x,y,0,x,y,R);
+        g.addColorStop(0,'rgba('+rgb+','+a+')');g.addColorStop(0.35,'rgba('+rgb+','+(a*0.72)+')');g.addColorStop(0.7,'rgba('+rgb+','+(a*0.25)+')');g.addColorStop(1,'rgba('+rgb+',0)');
         pc.fillStyle=g;pc.beginPath();pc.arc(x,y,R,0,Math.PI*2);pc.fill();
-        pc.fillStyle='rgba('+rgb+',0.85)';
-        for(var d=0;d<26;d++){var dx=gauss()*R*0.42,dy=gauss()*R*0.42,rr=Math.random()*1.5+0.35;pc.beginPath();pc.arc(x+dx,y+dy,rr,0,Math.PI*2);pc.fill()}
+        /* very fine atomised speckle, the airbrush's grain */
+        pc.fillStyle='rgba('+rgb+','+(a*1.6)+')';
+        for(var d=0;d<34;d++){var dx=gauss()*R*0.36,dy=gauss()*R*0.36,rr=Math.random()*0.55+0.2;pc.beginPath();pc.arc(x+dx,y+dy,rr,0,Math.PI*2);pc.fill()}
       }
       pc.restore();
-      /* a little overspray outside the board */
-      pc.fillStyle='rgba('+rgb+',0.18)';
-      for(var o=0;o<6;o++){var ox=gauss()*R*0.75,oy=gauss()*R*0.75;pc.beginPath();pc.arc(n[0]+ox,n[1]+oy,Math.random()*1.1+0.3,0,Math.PI*2);pc.fill()}
+      /* a faint haze of overspray just past the edge */
+      pc.fillStyle='rgba('+rgb+',0.1)';
+      for(var o=0;o<10;o++){var ox=gauss()*R*0.6,oy=gauss()*R*0.6;pc.beginPath();pc.arc(n[0]+ox,n[1]+oy,Math.random()*0.5+0.2,0,Math.PI*2);pc.fill()}
       prev=n;
-      /* the spray gun and its mist cone */
-      tc.clearRect(0,0,sprayTop.width,sprayTop.height);
+      /* the airbrush and the narrow cone of mist leaving its tip */
+      tc.clearRect(0,0,cw,ch);
       if(k<1){
-        var gx=n[0]+R*0.9,gy=n[1]-R*1.25,mist=tc.createRadialGradient(n[0],n[1],0,n[0],n[1],R*1.25);
-        mist.addColorStop(0,'rgba('+rgb+',0.35)');mist.addColorStop(1,'rgba('+rgb+',0)');
-        tc.fillStyle=mist;tc.beginPath();tc.moveTo(gx-3,gy+6);tc.lineTo(n[0]-R*0.9,n[1]+R*0.2);tc.lineTo(n[0]+R*0.5,n[1]+R*0.9);tc.closePath();tc.fill();
-        tc.beginPath();tc.arc(n[0],n[1],R*1.1,0,Math.PI*2);tc.fill();
-        tc.save();tc.translate(gx,gy);tc.rotate(-0.65);
-        tc.fillStyle='#22313a';tc.beginPath();tc.roundRect?tc.roundRect(-5,-2,30,12,4):tc.rect(-5,-2,30,12);tc.fill();      /* body */
-        tc.fillStyle='rgb('+rgb+')';tc.strokeStyle='#22313a';tc.lineWidth=2;tc.beginPath();tc.rect(4,-18,13,16);tc.fill();tc.stroke();   /* paint cup */
-        tc.fillStyle='#22313a';tc.beginPath();tc.rect(-11,1,7,6);tc.fill();                                  /* nozzle */
-        tc.beginPath();tc.rect(14,9,6,15);tc.fill();                                                          /* grip */
-        tc.restore();
+        var ang=-0.92,dist=R*0.95+10,tip=[n[0]+Math.cos(ang)*dist,n[1]+Math.sin(ang)*dist];
+        var dx2=n[0]-tip[0],dy2=n[1]-tip[1],dl=Math.hypot(dx2,dy2)||1,ux=dx2/dl,uy=dy2/dl,px=-uy,py=ux,sp=R*0.45;
+        var cone=tc.createLinearGradient(tip[0],tip[1],n[0],n[1]);cone.addColorStop(0,'rgba('+rgb+',0.5)');cone.addColorStop(1,'rgba('+rgb+',0.06)');
+        tc.fillStyle=cone;tc.beginPath();tc.moveTo(tip[0],tip[1]);tc.lineTo(n[0]+px*sp+ux*R*0.15,n[1]+py*sp+uy*R*0.15);tc.lineTo(n[0]-px*sp+ux*R*0.15,n[1]-py*sp+uy*R*0.15);tc.closePath();tc.fill();
+        tc.fillStyle='rgba('+rgb+',0.55)';
+        for(var q=0;q<14;q++){var f=Math.random(),w=(Math.random()-0.5)*2*sp*f;tc.beginPath();tc.arc(tip[0]+dx2*f+px*w,tip[1]+dy2*f+py*w,0.45,0,Math.PI*2);tc.fill()}
+        drawAirbrush(tc,tip,rgb,ang,cw,ch);
       }
       if(k>=1){
-        cancelAnimationFrame(run.raf);run.raf=0;tc.clearRect(0,0,sprayTop.width,sprayTop.height);
+        cancelAnimationFrame(run.raf);run.raf=0;tc.clearRect(0,0,cw,ch);
         run.applied=true;run.apply();
         run.t2=setTimeout(function(){
           if(SPRAY.run!==run)return;
