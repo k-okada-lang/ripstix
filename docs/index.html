@@ -2328,16 +2328,18 @@ $('fxSkip').addEventListener('click',function(){stopShape(false)});
 $('replayShape').addEventListener('click',function(){FX.last=JSON.stringify(cfg);playShape()});
 
 /* ================= AIRBRUSH PAINT EFFECT =================
-   When a colour is picked, an airbrush passes over the part being painted in close, even strokes and the
-   new colour builds up as a fine mist; then the real render takes over. With the switch off, colours apply instantly. */
+   Painted the way a board is really airbrushed: hard edges are masked with tape and paper first; the colour goes on
+   in long, even, overlapping passes that start and finish off the board, in light coats that build up; fades are
+   sprayed from the light side towards the dark side, pulling the gun back to feather; then the tape is peeled.
+   With the switch off, colours apply instantly. */
 var SPRAY={on:!reduce,run:null};
 try{var _sp=localStorage.getItem('ripstix-spray');if(_sp==='0')SPRAY.on=false;else if(_sp==='1')SPRAY.on=true}catch(e){}
 var sprayHost=document.querySelector('.cf-canvas');
-var sprayPaint=document.createElement('canvas'),sprayTop=document.createElement('canvas');
-sprayPaint.className='spray-fx';sprayTop.className='spray-fx top';
-[sprayPaint,sprayTop].forEach(function(c){c.setAttribute('aria-hidden','true');sprayHost.appendChild(c)});
+var sprayPaint=document.createElement('canvas'),sprayMask=document.createElement('canvas'),sprayTop=document.createElement('canvas');
+sprayPaint.className='spray-fx';sprayMask.className='spray-fx';sprayMask.style.zIndex='5';sprayTop.className='spray-fx top';sprayTop.style.zIndex='6';
+[sprayPaint,sprayMask,sprayTop].forEach(function(c){c.setAttribute('aria-hidden','true');sprayHost.appendChild(c)});
 function sprayFit(){var r=sprayHost.getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1);
-  [sprayPaint,sprayTop].forEach(function(c){var w=Math.max(1,Math.round(r.width*dpr)),h=Math.max(1,Math.round(r.height*dpr));if(c.width!==w||c.height!==h){c.width=w;c.height=h}});return dpr}
+  [sprayPaint,sprayMask,sprayTop].forEach(function(c){var w=Math.max(1,Math.round(r.width*dpr)),h=Math.max(1,Math.round(r.height*dpr));if(c.width!==w||c.height!==h){c.width=w;c.height=h}});return dpr}
 /* board coordinates (x across, y from the nose, inches) -> pixels on the overlay, for the 2D drawing or the live 3D model */
 function sprayMapper(){
   var t=TYPE_BY[cfg.type],o=outline(t,cfg.tail,cfg.W,cfg.L),host=sprayHost.getBoundingClientRect();
@@ -2351,34 +2353,71 @@ function sprayMapper(){
   var m=path.getScreenCTM(),pt=svg.createSVGPoint();if(!m)return null;
   return {o:o,map:function(x,y){pt.x=x;pt.y=y;var q=pt.matrixTransform(m);return [q.x-host.left,q.y-host.top]}};
 }
-/* the area that colour actually covers, and the path the airbrush follows over it (close, overlapping passes) */
-function sprayPlan(target,M){
-  var P=M.o.P,L=cfg.L,W=cfg.W;
-  function span(v0,v1){var a=[],b=[];for(var k=0;k<=32;k++){var y=L*(v0+(v1-v0)*k/32),hw=P.hw(y);a.push([hw,y]);b.push([-hw,y])}return a.concat(b.reverse())}
-  function zig(v0,v1,n){var p=[],y,k;for(k=0;k<=n;k++){y=L*(v0+(v1-v0)*k/n);var hw=Math.max(P.hw(y),W*0.08)*1.06;p.push(k%2?[hw,y]:[-hw,y]);p.push(k%2?[-hw,y]:[hw,y])}return p}
-  function passes(v0,v1){return Math.max(4,Math.min(30,Math.round((v1-v0)*L/(W*0.17))))}
-  if(target==='accent'&&cfg.pat==='railfade'){
-    var polys=[],path=[];[-1,1].forEach(function(s,si){var a=[],b=[];for(var k=0;k<=40;k++){var y=L*k/40,hw=P.hw(y);a.push([s*hw*1.02,y]);b.push([s*hw*0.5,y])}polys.push(a.concat(b.reverse()))});
-    for(var k=0;k<=24;k++){var y=L*k/24;path.push([-P.hw(y)*0.8,y])}for(k=24;k>=0;k--){y=L*k/24;path.push([P.hw(y)*0.8,y])}
-    return {polys:polys,path:path,dur:1700};
-  }
-  if(target==='accent'&&cfg.pat==='dip')return {polys:[span(0,0.19),span(0.8,1)],path:zig(0,0.19,4).concat(zig(0.8,1,4)),dur:1500};
-  if(target==='accent'&&cfg.pat==='twotone')return {polys:[span(0,0.3)],path:zig(0,0.3,passes(0,0.3)),dur:1400};
-  if(target==='accent'&&cfg.pat==='grad')return {polys:[span(0,0.55)],path:zig(0,0.55,passes(0,0.55)),dur:1500,fade:true};
+/* how the job is done for each target: where paint may land, the gun's passes (in board inches), masking */
+function sprayPlan(target){
+  var o=outline(TYPE_BY[cfg.type],cfg.tail,cfg.W,cfg.L),P=o.P,L=cfg.L,W=cfg.W,st=[],ov=0.07*L;
+  function hw(y){return P.hw(clamp(y,0,L))}
+  function add(a,b,on,al,rs,ang,lab){st.push({a:a,b:b,on:on,al:al,rs:rs,ang:ang,lab:lab})}
+  function goTo(p,ang,lab){if(st.length){var q=st[st.length-1].b;if(q[0]!==p[0]||q[1]!==p[1])add(q,p,false,0,1,ang,lab)}}
+  /* straight passes along the length, one lane after another, trigger held from before the nose to past the tail */
+  function lengthwise(xs,al,lab){var ang=-0.62;xs.forEach(function(x,i){var a=[x,i%2?L+ov:-ov],b=[x,i%2?-ov:L+ov];goTo(a,ang,lab);add(a,b,true,al,1,ang,lab)})}
+  /* passes across the board, rail to rail, each starting and ending off the rail */
+  function across(ys,alf,rsf,lab){var ang=-1.05;ys.forEach(function(y,i){var e=hw(y)+W*0.14,a=[i%2?e:-e,y],b=[i%2?-e:e,y];goTo(a,ang,lab);add(a,b,true,alf(y),rsf(y),ang,lab)})}
+  function range(a,b,step){var r=[],n=Math.max(1,Math.round(Math.abs(b-a)/step));for(var k=0;k<=n;k++)r.push(a+(b-a)*k/n);return r}
+  var Rin=W*0.105,sp=Rin*1.05;
   if(target==='finColor'){
     var fs=finsFor(cfg,P).filter(function(f){return !f.box});if(!fs.length)return null;
     var fp=fs.map(function(f){var l=f.len/2+0.6,w=(f.big?0.9:0.6);return [[f.x-w,f.y-l],[f.x+w,f.y-l],[f.x+w,f.y+l],[f.x-w,f.y+l]]});
-    var pth=[];fs.forEach(function(f){pth.push([f.x,f.y-f.len/2-0.4],[f.x,f.y+f.len/2+0.4])});
-    return {polys:fp,path:pth,dur:1000,small:true};
+    [0,1].forEach(function(c){fs.forEach(function(f){[-0.25,0.25].forEach(function(dx,i){var a=[f.x+dx,f.y-f.len/2-1.2],b=[f.x+dx,f.y+f.len/2+1.2];if(i)a=[a[0],b[1]],b=[b[0],f.y-f.len/2-1.2];goTo(a,-0.7,c?'2回目の吹き付け':'1回目の吹き付け');add(a,b,true,1,1,-0.7,c?'2回目の吹き付け':'1回目の吹き付け')})})});
+    return {clip:fp,st:st,Rin:0.62,dur:1500};
   }
-  return {polys:[M.o.pts],path:zig(0,1,passes(0,1)),dur:2000};
+  if(target==='accent'&&cfg.pat==='twotone'){
+    /* hard diagonal edge: tape along the line, paper over the side that stays the base colour */
+    var yl=function(x){return L*(0.235-0.105*x/W)},tw=0.85,ext=W*0.62;
+    var region=[[-W,-3],[W,-3],[W,yl(W)],[-W,yl(-W)]];
+    across(range(-L*0.02,L*0.37,sp*0.95),function(){return 1},function(){return 1},'1回目の吹き付け');
+    across(range(L*0.37,-L*0.02,sp*0.95).map(function(y){return y+sp*0.45}),function(){return 1},function(){return 1},'2回目の吹き付け');
+    return {clip:[region],st:st,Rin:Rin,dur:2100,
+      mask:{line:[[ext,yl(ext)],[-ext,yl(-ext)]],tw:tw,paper:[[-W,yl(-W)+tw*0.6],[W,yl(W)+tw*0.6],[W,L+3],[-W,L+3]]}};
+  }
+  if(target==='accent'&&cfg.pat==='dip'){
+    /* soft dips: feathered from the clean middle out to solid tips */
+    var aN=function(y){return y<L*0.11?1:clamp(1-(y-L*0.11)/(L*0.09),0.06,1)},aT=function(y){return y>L*0.88?1:clamp(1-(L*0.88-y)/(L*0.09),0.06,1)};
+    var rN=function(y){return 1+0.6*(1-aN(y))},rT=function(y){return 1+0.6*(1-aT(y))};
+    across(range(L*0.21,-L*0.02,sp*0.9),aN,rN,'ノーズをフェード');
+    across(range(L*0.78,L*1.02,sp*0.9),aT,rT,'テールをフェード');
+    across(range(-L*0.02,L*0.12,sp),function(){return 0.9},function(){return 1},'2回目の吹き付け');
+    across(range(L*0.87,L*1.02,sp),function(){return 0.9},function(){return 1},'2回目の吹き付け');
+    return {clip:'board',st:st,Rin:Rin,dur:2600};
+  }
+  if(target==='accent'&&cfg.pat==='grad'){
+    var aG=function(y){return y<L*0.55?clamp(1-y/(L*0.55),0.05,1)*1.05:clamp((y-L*0.55)/(L*0.45),0.03,1)*0.28},rG=function(y){return 1+0.7*(1-Math.min(1,aG(y)))};
+    across(range(L*0.57,-L*0.02,sp*0.9),aG,rG,'グラデーションを吹く');
+    across(range(L*0.62,L*1.02,sp*1.3),aG,rG,'グラデーションを吹く');
+    across(range(-L*0.02,L*0.3,sp),function(y){return 0.8*(1-y/(L*0.3))+0.2},function(){return 1},'2回目の吹き付け');
+    return {clip:'board',st:st,Rin:Rin,dur:2600};
+  }
+  if(target==='accent'&&cfg.pat==='railfade'){
+    /* gun angled at the rail; passes follow the rail, working from the light inside out to the dark edge */
+    var fr=[[0.5,0.22,1.55],[0.66,0.4,1.35],[0.8,0.65,1.15],[0.92,0.95,1],[1.0,1,0.95]];
+    [1,-1].forEach(function(side){fr.forEach(function(f,i){
+      var ang=side>0?-0.38:-(Math.PI-0.38),lab=side>0?'右レールをフェード':'左レールをフェード',pts=[];
+      for(var k=0;k<=28;k++){var y=-ov+(L+2*ov)*k/28;pts.push([side*hw(y)*f[0],y])}
+      if(i%2)pts.reverse();goTo(pts[0],ang,lab);for(k=1;k<pts.length;k++)add(pts[k-1],pts[k],true,f[1],f[2],ang,lab)})});
+    return {clip:'board',st:st,Rin:W*0.085,dur:2900};
+  }
+  /* a whole side, deck or bottom: two full coats, the second offset half a lane */
+  var n=Math.max(4,Math.round(W/sp)),xs=[];for(var k=0;k<=n;k++)xs.push(-W/2+W*k/n);
+  lengthwise(xs,1,'1回目の吹き付け');
+  lengthwise(xs.slice(0,-1).map(function(x){return x+W/n/2}).reverse(),1,'2回目の吹き付け');
+  return {clip:'board',st:st,Rin:Rin,dur:2900};
 }
 function hexRgb(h){var n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255]}
 function gauss(){var u=1-Math.random(),v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
 function sprayStop(){
   var r=SPRAY.run;if(!r)return;SPRAY.run=null;cancelAnimationFrame(r.raf);clearTimeout(r.t1);clearTimeout(r.t2);
   if(!r.applied){r.applied=true;r.apply()}
-  [sprayPaint,sprayTop].forEach(function(c){c.getContext('2d').clearRect(0,0,c.width,c.height);c.style.opacity=''});
+  [sprayPaint,sprayMask,sprayTop].forEach(function(c){c.getContext('2d').clearRect(0,0,c.width,c.height);c.style.opacity='';c.style.transition='';c.style.transform=''});
 }
 /* the airbrush itself: a slim pen with a needle cap, trigger, gravity cup holding the colour, and its air hose */
 function drawAirbrush(tc,tip,rgb,ang,cw,ch){
@@ -2410,65 +2449,86 @@ function sprayColor(target,hex,apply){
   run.t1=setTimeout(begin,needTurn&&T3.ok&&!$('cf3d').hidden?650:needTurn?260:0);
   function begin(){
     if(SPRAY.run!==run)return;
-    var M=sprayMapper(),plan=M&&sprayPlan(target,M);
-    if(!plan){sprayStop();return}
-    var dpr=sprayFit(),pc=sprayPaint.getContext('2d'),tc=sprayTop.getContext('2d');
-    pc.setTransform(dpr,0,0,dpr,0,0);tc.setTransform(dpr,0,0,dpr,0,0);pc.clearRect(0,0,sprayPaint.width,sprayPaint.height);
+    var M=sprayMapper(),plan=M&&sprayPlan(target);
+    if(!plan||!plan.st.length){sprayStop();return}
+    var dpr=sprayFit(),pc=sprayPaint.getContext('2d'),mc=sprayMask.getContext('2d'),tc=sprayTop.getContext('2d');
+    [pc,mc,tc].forEach(function(c){c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,c.canvas.width/dpr,c.canvas.height/dpr)});
     var cw=sprayPaint.width/dpr,ch=sprayPaint.height/dpr;
-    /* path length in board units, so the airbrush moves at an even speed */
-    var path=plan.path,cum=[0];for(var i=1;i<path.length;i++)cum.push(cum[i-1]+Math.hypot(path[i][0]-path[i-1][0],path[i][1]-path[i-1][1]));
-    var total=cum[cum.length-1]||1,t0=performance.now(),last=t0,prev=null;
-    function at(d){var j=1;while(j<cum.length-1&&cum[j]<d)j++;var s=(d-cum[j-1])/((cum[j]-cum[j-1])||1);return [lerp(path[j-1][0],path[j][0],s),lerp(path[j-1][1],path[j][1],s)]}
+    var MASK=plan.mask?700:0,SP=plan.dur,PEEL=plan.mask?650:0;
+    /* the gun moves at an even speed while spraying and quickly between passes */
+    var st=plan.st,cum=[0];st.forEach(function(s,i){var l=Math.hypot(s.b[0]-s.a[0],s.b[1]-s.a[1]);s.len=l;cum.push(cum[i]+(s.on?l:l*0.3))});
+    var WT=cum[cum.length-1]||1,t0=performance.now(),prevW=0,maskDone=false,stamps=0;
+    function posAt(w){var j=0;while(j<st.length-1&&cum[j+1]<w)j++;var s=st[j],f=clamp((w-cum[j])/((cum[j+1]-cum[j])||1),0,1);return {s:s,p:[lerp(s.a[0],s.b[0],f),lerp(s.a[1],s.b[1],f)]}}
+    function boardPath(M2){var pth=new Path2D();M2.o.pts.forEach(function(p,ix){var q=M2.map(p[0],p[1]);ix?pth.lineTo(q[0],q[1]):pth.moveTo(q[0],q[1])});pth.closePath();return pth}
+    function polyPath(M2,polys){var pth=new Path2D();polys.forEach(function(poly){poly.forEach(function(p,ix){var q=M2.map(p[0],p[1]);ix?pth.lineTo(q[0],q[1]):pth.moveTo(q[0],q[1])});pth.closePath()});return pth}
+    function pxR(M2,p,rs){var a=M2.map(p[0],p[1]),b=M2.map(p[0]+plan.Rin*rs,p[1]);return clamp(Math.hypot(b[0]-a[0],b[1]-a[1]),3,90)}
+    function label(t){tc.save();tc.font='700 11px '+getComputedStyle(document.body).fontFamily;var w=tc.measureText(t).width+20;
+      tc.fillStyle='rgba(13,34,48,.82)';tc.beginPath();tc.roundRect?tc.roundRect(12,12,w,24,12):tc.rect(12,12,w,24);tc.fill();tc.fillStyle='#fff';tc.textBaseline='middle';tc.fillText(t,22,24.5);tc.restore()}
+    /* masking: tape laid along the line, then paper over the side that stays clean */
+    function drawMask(M2,f){
+      var m=plan.mask;mc.clearRect(0,0,cw,ch);
+      var pf=clamp((f-0.6)/0.4,0,1);
+      if(pf>0){mc.save();mc.clip(boardPath(M2));mc.globalAlpha=pf;mc.fillStyle='#e7dcc3';mc.fill(polyPath(M2,[m.paper]));
+        mc.globalAlpha=pf*0.35;mc.strokeStyle='#cbb994';mc.lineWidth=1;for(var k=1;k<6;k++){var y=cfg.L*(0.36+k*0.12),a=M2.map(-cfg.W,y),b=M2.map(cfg.W,y+1.5);mc.beginPath();mc.moveTo(a[0],a[1]);mc.lineTo(b[0],b[1]);mc.stroke()}
+        mc.restore()}
+      var tf=clamp(f/0.6,0,1),a=m.line[0],b=m.line[1],e=[lerp(a[0],b[0],tf),lerp(a[1],b[1],tf)];
+      var p0=M2.map(a[0],a[1]),p1=M2.map(e[0],e[1]),p0b=M2.map(a[0],a[1]+m.tw),p1b=M2.map(e[0],e[1]+m.tw);
+      mc.fillStyle='#d9c27c';mc.beginPath();mc.moveTo(p0[0],p0[1]);mc.lineTo(p1[0],p1[1]);mc.lineTo(p1b[0],p1b[1]);mc.lineTo(p0b[0],p0b[1]);mc.closePath();mc.fill();
+      mc.strokeStyle='rgba(120,96,40,.45)';mc.lineWidth=0.8;mc.beginPath();mc.moveTo(p0[0],p0[1]);mc.lineTo(p1[0],p1[1]);mc.stroke();
+      if(tf<1){mc.fillStyle='#bfa75e';mc.beginPath();mc.arc((p1[0]+p1b[0])/2,(p1[1]+p1b[1])/2,Math.max(4,Math.hypot(p1b[0]-p1[0],p1b[1]-p1[1])*0.9),0,Math.PI*2);mc.fill()}  /* the roll */
+    }
+    function stamp(x,y,R,a){
+      var g=pc.createRadialGradient(x,y,0,x,y,R);
+      g.addColorStop(0,'rgba('+rgb+','+a+')');g.addColorStop(0.35,'rgba('+rgb+','+(a*0.72)+')');g.addColorStop(0.7,'rgba('+rgb+','+(a*0.24)+')');g.addColorStop(1,'rgba('+rgb+',0)');
+      pc.fillStyle=g;pc.beginPath();pc.arc(x,y,R,0,Math.PI*2);pc.fill();
+      pc.fillStyle='rgba('+rgb+','+Math.min(1,a*1.7)+')';
+      for(var d=0;d<14;d++){var dx=gauss()*R*0.38,dy=gauss()*R*0.38;pc.beginPath();pc.arc(x+dx,y+dy,Math.random()*0.5+0.2,0,Math.PI*2);pc.fill()}
+      if(plan.mask){mc.save();mc.globalCompositeOperation='source-atop';mc.fillStyle=g;mc.globalAlpha=0.3;mc.beginPath();mc.arc(x,y,R,0,Math.PI*2);mc.fill();mc.restore()}  /* overspray lands on the tape and paper */
+    }
     function frame(now){
       if(SPRAY.run!==run)return;
       run.raf=requestAnimationFrame(frame);
       if(T3.ok)T3.lastInt=now;                       /* hold the 3D board still while it is being painted */
-      var k=Math.min(1,(now-t0)/plan.dur);last=now;
-      var M2=sprayMapper();if(!M2)return;
-      var clip=new Path2D();plan.polys.forEach(function(poly){poly.forEach(function(p,ix){var q=M2.map(p[0],p[1]);ix?clip.lineTo(q[0],q[1]):clip.moveTo(q[0],q[1])});clip.closePath()});
-      var b=at(k*total),n=M2.map(b[0],b[1]),r0=M2.map(0,b[1]),r1=M2.map(cfg.W*(plan.small?0.07:0.15),b[1]);
-      var R=clamp(Math.hypot(r1[0]-r0[0],r1[1]-r0[1]),plan.small?5:9,plan.small?18:56);
-      /* the hand is never perfectly steady */
-      n=[n[0]+Math.sin(now/83)*R*0.05,n[1]+Math.cos(now/71)*R*0.05];
-      /* fill the distance travelled since the last frame so fast passes leave no gaps */
-      var steps=prev?Math.max(1,Math.ceil(Math.hypot(n[0]-prev[0],n[1]-prev[1])/(R*0.22))):1;
-      var a=plan.fade?0.34*Math.max(0,1-b[1]/(cfg.L*0.55)):0.34;
-      pc.save();pc.clip(clip);
-      for(var s=1;s<=steps;s++){
-        var x=prev?lerp(prev[0],n[0],s/steps):n[0],y=prev?lerp(prev[1],n[1],s/steps):n[1];
-        /* soft, feathered mist: dense in the middle, fading smoothly to nothing */
-        var g=pc.createRadialGradient(x,y,0,x,y,R);
-        g.addColorStop(0,'rgba('+rgb+','+a+')');g.addColorStop(0.35,'rgba('+rgb+','+(a*0.72)+')');g.addColorStop(0.7,'rgba('+rgb+','+(a*0.25)+')');g.addColorStop(1,'rgba('+rgb+',0)');
-        pc.fillStyle=g;pc.beginPath();pc.arc(x,y,R,0,Math.PI*2);pc.fill();
-        /* very fine atomised speckle, the airbrush's grain */
-        pc.fillStyle='rgba('+rgb+','+(a*1.6)+')';
-        for(var d=0;d<34;d++){var dx=gauss()*R*0.36,dy=gauss()*R*0.36,rr=Math.random()*0.55+0.2;pc.beginPath();pc.arc(x+dx,y+dy,rr,0,Math.PI*2);pc.fill()}
-      }
-      pc.restore();
-      /* a faint haze of overspray just past the edge */
-      pc.fillStyle='rgba('+rgb+',0.1)';
-      for(var o=0;o<10;o++){var ox=gauss()*R*0.6,oy=gauss()*R*0.6;pc.beginPath();pc.arc(n[0]+ox,n[1]+oy,Math.random()*0.5+0.2,0,Math.PI*2);pc.fill()}
-      prev=n;
-      /* the airbrush and the narrow cone of mist leaving its tip */
+      var t=Math.max(0,now-t0),M2=sprayMapper();if(!M2)return;
       tc.clearRect(0,0,cw,ch);
-      if(k<1){
-        var ang=-0.92,dist=R*0.95+10,tip=[n[0]+Math.cos(ang)*dist,n[1]+Math.sin(ang)*dist];
-        var dx2=n[0]-tip[0],dy2=n[1]-tip[1],dl=Math.hypot(dx2,dy2)||1,ux=dx2/dl,uy=dy2/dl,px=-uy,py=ux,sp=R*0.45;
-        var cone=tc.createLinearGradient(tip[0],tip[1],n[0],n[1]);cone.addColorStop(0,'rgba('+rgb+',0.5)');cone.addColorStop(1,'rgba('+rgb+',0.06)');
-        tc.fillStyle=cone;tc.beginPath();tc.moveTo(tip[0],tip[1]);tc.lineTo(n[0]+px*sp+ux*R*0.15,n[1]+py*sp+uy*R*0.15);tc.lineTo(n[0]-px*sp+ux*R*0.15,n[1]-py*sp+uy*R*0.15);tc.closePath();tc.fill();
-        tc.fillStyle='rgba('+rgb+',0.55)';
-        for(var q=0;q<14;q++){var f=Math.random(),w=(Math.random()-0.5)*2*sp*f;tc.beginPath();tc.arc(tip[0]+dx2*f+px*w,tip[1]+dy2*f+py*w,0.45,0,Math.PI*2);tc.fill()}
-        drawAirbrush(tc,tip,rgb,ang,cw,ch);
+      if(MASK&&t<MASK){drawMask(M2,t/MASK);label('マスキング');return}
+      if(plan.mask&&!maskDone){drawMask(M2,1);maskDone=true}
+      var k=clamp((t-MASK)/SP,0,1),w=k*WT;
+      if(k<1||prevW<WT){
+        var clipP=boardPath(M2),reg=plan.clip==='board'?null:polyPath(M2,plan.clip);
+        pc.save();pc.clip(clipP);if(reg)pc.clip(reg);
+        /* walk the gun along the passes since the last frame, so nothing is skipped at any frame rate */
+        var cur=posAt(w),Rnow=pxR(M2,cur.p,cur.s.rs),stepIn=plan.Rin*0.2,n=Math.min(500,Math.ceil((w-prevW)/stepIn));
+        for(var i=1;i<=n;i++){var q=posAt(prevW+(w-prevW)*i/n);if(!q.s.on)continue;
+          var sp=M2.map(q.p[0],q.p[1]),R=pxR(M2,q.p,q.s.rs),a=0.19*q.s.al/(q.s.rs*q.s.rs);
+          sp=[sp[0]+Math.sin((now+i)/83)*R*0.04,sp[1]+Math.cos((now+i)/71)*R*0.04];
+          stamp(sp[0],sp[1],R,a);stamps++}
+        pc.restore();prevW=w;
+        if(k<1){
+          var n0=M2.map(cur.p[0],cur.p[1]),ang=cur.s.ang,dist=Rnow*1.1+14*cur.s.rs,tip=[n0[0]+Math.cos(ang)*dist,n0[1]+Math.sin(ang)*dist];
+          if(cur.s.on){
+            var dx2=n0[0]-tip[0],dy2=n0[1]-tip[1],dl=Math.hypot(dx2,dy2)||1,ux=dx2/dl,uy=dy2/dl,px=-uy,py=ux,spn=Rnow*0.5;
+            var cone=tc.createLinearGradient(tip[0],tip[1],n0[0],n0[1]);cone.addColorStop(0,'rgba('+rgb+',0.5)');cone.addColorStop(1,'rgba('+rgb+',0.05)');
+            tc.fillStyle=cone;tc.beginPath();tc.moveTo(tip[0],tip[1]);tc.lineTo(n0[0]+px*spn+ux*Rnow*0.15,n0[1]+py*spn+uy*Rnow*0.15);tc.lineTo(n0[0]-px*spn+ux*Rnow*0.15,n0[1]-py*spn+uy*Rnow*0.15);tc.closePath();tc.fill();
+            tc.fillStyle='rgba('+rgb+',0.55)';
+            for(var qq=0;qq<12;qq++){var f=Math.random(),ww=(Math.random()-0.5)*2*spn*f;tc.beginPath();tc.arc(tip[0]+dx2*f+px*ww,tip[1]+dy2*f+py*ww,0.45,0,Math.PI*2);tc.fill()}
+          }
+          var flip=Math.cos(ang)<0;tc.save();if(flip){tc.translate(tip[0],0);tc.scale(-1,1);tc.translate(-tip[0],0)}
+          drawAirbrush(tc,tip,rgb,flip?Math.PI-ang:ang,cw,ch);tc.restore();
+          label(cur.s.lab);return;
+        }
       }
-      if(k>=1){
-        cancelAnimationFrame(run.raf);run.raf=0;tc.clearRect(0,0,cw,ch);
-        run.applied=true;run.apply();
-        run.t2=setTimeout(function(){
-          if(SPRAY.run!==run)return;
-          sprayPaint.style.transition='opacity .45s ease';sprayPaint.style.opacity='0';
-          run.t2=setTimeout(function(){if(SPRAY.run!==run)return;SPRAY.run=null;pc.clearRect(0,0,sprayPaint.width,sprayPaint.height);sprayPaint.style.transition='';sprayPaint.style.opacity=''},480);
-        },T3.ok&&!$('cf3d').hidden?420:80);
-      }
+      /* finished: the real render takes over, the tape and paper come off, the overlay fades */
+      cancelAnimationFrame(run.raf);run.raf=0;tc.clearRect(0,0,cw,ch);
+      SPRAY.lastStamps=stamps;
+      run.applied=true;run.apply();
+      if(PEEL){label('テープをはがす');sprayMask.style.transition='opacity '+PEEL+'ms ease, transform '+PEEL+'ms cubic-bezier(.3,.6,.4,1)';sprayMask.style.transform='translate(10px,-14px) rotate(-1.2deg)';sprayMask.style.opacity='0'}
+      run.t2=setTimeout(function(){
+        if(SPRAY.run!==run)return;tc.clearRect(0,0,cw,ch);
+        sprayPaint.style.transition='opacity .45s ease';sprayPaint.style.opacity='0';
+        run.t2=setTimeout(function(){if(SPRAY.run!==run)return;SPRAY.run=null;
+          [sprayPaint,sprayMask].forEach(function(c){c.getContext('2d').clearRect(0,0,c.width,c.height);c.style.transition='';c.style.opacity='';c.style.transform=''})},480);
+      },PEEL?PEEL:(T3.ok&&!$('cf3d').hidden?420:80));
     }
     run.raf=requestAnimationFrame(frame);
   }
