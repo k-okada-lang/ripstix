@@ -49,6 +49,7 @@ function db(): PDO {
       fails INTEGER NOT NULL DEFAULT 0,
       lock_until INTEGER NOT NULL DEFAULT 0,
       reset_hash TEXT, reset_exp INTEGER NOT NULL DEFAULT 0, reset_tries INTEGER NOT NULL DEFAULT 0, reset_sent INTEGER NOT NULL DEFAULT 0)');
+  try { $pdo->exec('ALTER TABLE accounts ADD COLUMN verified INTEGER NOT NULL DEFAULT 0'); } catch (PDOException $e) { /* 追加済み */ }
   $pdo->exec('CREATE TABLE IF NOT EXISTS docs (path TEXT PRIMARY KEY, parent TEXT NOT NULL, data TEXT NOT NULL, created INTEGER NOT NULL, updated INTEGER NOT NULL)');
   $pdo->exec('CREATE INDEX IF NOT EXISTS docs_parent ON docs(parent)');
   $pdo->exec('CREATE TABLE IF NOT EXISTS tokens (selector TEXT PRIMARY KEY, vhash TEXT NOT NULL, uid INTEGER NOT NULL, exp INTEGER NOT NULL)');
@@ -80,12 +81,32 @@ function pw_problem(string $p): string {
   return '';
 }
 function uid_of(int $id): string { return 'u' . $id; }
-function is_admin(?array $acc): bool {
+function admin_listed(?array $acc): bool {
   if (!$acc) return false;
   foreach (ADMIN_EMAILS as $a) if (norm_email($a) === $acc['email']) return true;
   return false;
 }
-function pub(array $acc): array { return ['uid' => uid_of((int)$acc['id']), 'email' => $acc['email'], 'admin' => is_admin($acc)]; }
+/* 管理者になれるのは、ADMIN_EMAILS のアドレスで登録し、そのメールに届いた確認コードで「本人のアドレス」と確認できた人だけ */
+function is_admin(?array $acc): bool { return admin_listed($acc) && (int)($acc['verified'] ?? 0) === 1; }
+function pub(array $acc): array { return ['uid' => uid_of((int)$acc['id']), 'email' => $acc['email'], 'admin' => is_admin($acc), 'admin_pending' => admin_listed($acc) && !is_admin($acc)]; }
+function send_code(array $acc, string $why): void {
+  $code = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+  db()->prepare('UPDATE accounts SET reset_hash = ?, reset_exp = ?, reset_tries = 0, reset_sent = ? WHERE id = ?')
+    ->execute([hash_hmac('sha256', $code . ':' . $acc['id'], secret_key()), now() + RESET_TTL, now(), $acc['id']]);
+  if ($why === 'verify') send_mail($acc['email'], '【RIPSTIX】管理者アドレスの確認コード',
+    "RIPSTIX の管理画面を使うための確認コードです。\n\n    $code\n\nマイページの「管理者の確認」に入力してください。このコードは15分間有効です。\nお心当たりのない場合は、このメールを破棄してください。\n\nRIPSTIX / SPLASH\n");
+  else send_mail($acc['email'], '【RIPSTIX】パスワード再設定の確認コード',
+    "RIPSTIX をご利用いただきありがとうございます。\nパスワード再設定の確認コードは次のとおりです。\n\n    $code\n\nこのコードは15分間有効です。\nお心当たりのない場合は、このメールを破棄してください。パスワードは変更されません。\n\nRIPSTIX / SPLASH\n");
+}
+function check_code(array $acc, string $code): void {
+  if (!$acc['reset_hash']) authfail('code');
+  if ((int)$acc['reset_exp'] < now()) authfail('expired');
+  if ((int)$acc['reset_tries'] >= RESET_TRIES) authfail('tries');
+  if (!hash_equals($acc['reset_hash'], hash_hmac('sha256', $code . ':' . $acc['id'], secret_key()))) {
+    db()->prepare('UPDATE accounts SET reset_tries = reset_tries + 1 WHERE id = ?')->execute([$acc['id']]);
+    authfail('code');
+  }
+}
 
 /* 確認コード用の秘密鍵：config.php の SECRET が空なら、初回に private/secret.key を自動で作って使います */
 function secret_key(): string {
@@ -104,7 +125,7 @@ function mail_from(): string {
 }
 function send_mail(string $to, string $subject, string $body): bool {
   if (!email_ok($to)) return false;
-  $from = mail_from();
+  $from = mail_from(); $subject = preg_replace('/[\r\n\t]+/', ' ', $subject);
   if (MAIL_DEBUG_LOG) @file_put_contents(__DIR__ . '/private/mail.log', date('c') . "\nTo: $to\nSubject: $subject\n\n$body\n-----\n", FILE_APPEND | LOCK_EX);
   if (!MAIL_ENABLED) return true;
   mb_language('uni'); mb_internal_encoding('UTF-8');
@@ -141,10 +162,12 @@ function current_account(): ?array {
   }
   if ($uid) {
     $s = db()->prepare('SELECT * FROM accounts WHERE id = ?'); $s->execute([(int)$uid]); $a = $s->fetch();
-    if ($a) $cache = $a; else unset($_SESSION['uid']);
+    if ($a && isset($_SESSION['pwv']) && !hash_equals((string)$_SESSION['pwv'], pwv($a))) { $a = false; }   // パスワードが変わったら、ほかの端末は自動でログアウト
+    if ($a) { $_SESSION['pwv'] = pwv($a); $cache = $a; } else { unset($_SESSION['uid'], $_SESSION['pwv']); }
   }
   return $cache;
 }
+function pwv(array $acc): string { return substr(hash('sha256', 'pwv:' . $acc['hash']), 0, 32); }
 function remember(int $uid): void {
   $sel = bin2hex(random_bytes(9)); $val = bin2hex(random_bytes(24)); $exp = now() + REMEMBER_DAYS * 86400;
   db()->prepare('INSERT INTO tokens (selector, vhash, uid, exp) VALUES (?, ?, ?, ?)')->execute([$sel, hash('sha256', $val), $uid, $exp]);
@@ -155,7 +178,7 @@ function forget_cookie(): void {
   setcookie('RSXREM', '', ['expires' => 1, 'path' => '/', 'secure' => is_https(), 'httponly' => true, 'samesite' => 'Lax']);
 }
 function sign_in(array $acc, bool $rem): void {
-  session_regenerate_id(true); $_SESSION['uid'] = (int)$acc['id'];
+  session_regenerate_id(true); $_SESSION['uid'] = (int)$acc['id']; $_SESSION['pwv'] = pwv($acc);
   if ($rem) remember((int)$acc['id']);
 }
 function csrf(): string { if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(24)); return $_SESSION['csrf']; }
@@ -262,6 +285,7 @@ try {
         db()->prepare('INSERT INTO accounts (email, hash, created, updated) VALUES (?, ?, ?, ?)')->execute([$email, password_hash($pw, PASSWORD_DEFAULT), $t, $t]);
       } catch (PDOException $e) { authfail('exists', 409); }
       $s = db()->prepare('SELECT * FROM accounts WHERE email = ?'); $s->execute([$email]); $acc = $s->fetch();
+      if (admin_listed($acc)) send_code($acc, 'verify');
       sign_in($acc, true);
       out(['user' => pub($acc), 'csrf' => csrf()]);
     }
@@ -293,13 +317,7 @@ try {
       $email = norm_email(str_in($in, 'email', 200));
       if (!email_ok($email)) authfail('email');
       $s = db()->prepare('SELECT * FROM accounts WHERE email = ?'); $s->execute([$email]); $acc = $s->fetch();
-      if ($acc && now() - (int)$acc['reset_sent'] >= RESET_COOLDOWN) {
-        $code = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-        db()->prepare('UPDATE accounts SET reset_hash = ?, reset_exp = ?, reset_tries = 0, reset_sent = ? WHERE id = ?')
-          ->execute([hash_hmac('sha256', $code . ':' . $acc['id'], secret_key()), now() + RESET_TTL, now(), $acc['id']]);
-        send_mail($email, '【RIPSTIX】パスワード再設定の確認コード',
-          "RIPSTIX をご利用いただきありがとうございます。\nパスワード再設定の確認コードは次のとおりです。\n\n    $code\n\nこのコードは15分間有効です。\nお心当たりのない場合は、このメールを破棄してください。パスワードは変更されません。\n\nRIPSTIX / SPLASH\n" . site_url());
-      }
+      if ($acc && now() - (int)$acc['reset_sent'] >= RESET_COOLDOWN) send_code($acc, 'reset');
       out(['ok' => true]);                       // 登録の有無は返さない
     }
 
@@ -308,17 +326,29 @@ try {
       $email = norm_email(str_in($in, 'email', 200)); $code = preg_replace('/\D/', '', str_in($in, 'code', 20)); $pw = str_in($in, 'password', 100);
       if ($p = pw_problem($pw)) authfail('pw_' . $p);
       $s = db()->prepare('SELECT * FROM accounts WHERE email = ?'); $s->execute([$email]); $acc = $s->fetch();
-      if (!$acc || !$acc['reset_hash']) authfail('code');
-      if ((int)$acc['reset_exp'] < now()) authfail('expired');
-      if ((int)$acc['reset_tries'] >= RESET_TRIES) authfail('tries');
-      if (!hash_equals($acc['reset_hash'], hash_hmac('sha256', $code . ':' . $acc['id'], secret_key()))) {
-        db()->prepare('UPDATE accounts SET reset_tries = reset_tries + 1 WHERE id = ?')->execute([$acc['id']]);
-        authfail('code');
-      }
-      db()->prepare('UPDATE accounts SET hash = ?, reset_hash = NULL, reset_exp = 0, reset_tries = 0, fails = 0, lock_until = 0, updated = ? WHERE id = ?')
+      if (!$acc) authfail('code');
+      check_code($acc, $code);
+      db()->prepare('UPDATE accounts SET hash = ?, reset_hash = NULL, reset_exp = 0, reset_tries = 0, fails = 0, lock_until = 0, verified = 1, updated = ? WHERE id = ?')
         ->execute([password_hash($pw, PASSWORD_DEFAULT), now(), $acc['id']]);
       db()->prepare('DELETE FROM tokens WHERE uid = ?')->execute([$acc['id']]);       // ほかの端末のログインも解除
       out(['ok' => true]);
+    }
+
+    case 'verify_send': {                         // 管理者アドレスの確認コードを（再）送信
+      $acc = current_account(); if (!$acc) authfail('login', 401);
+      rate('verify', 6, 900);
+      if (is_admin($acc) || !admin_listed($acc)) out(['ok' => true]);
+      if (now() - (int)$acc['reset_sent'] < RESET_COOLDOWN) authfail('wait', 429);
+      send_code($acc, 'verify'); out(['ok' => true]);
+    }
+    case 'verify_confirm': {
+      $acc = current_account(); if (!$acc) authfail('login', 401);
+      rate('verify_confirm', 20, 900);
+      if (!admin_listed($acc)) authfail('code');
+      check_code($acc, preg_replace('/\D/', '', str_in($in, 'code', 20)));
+      db()->prepare('UPDATE accounts SET verified = 1, reset_hash = NULL, reset_exp = 0, reset_tries = 0 WHERE id = ?')->execute([$acc['id']]);
+      $acc['verified'] = 1;
+      out(['user' => pub($acc), 'csrf' => csrf()]);
     }
 
     case 'password_change': {
@@ -326,15 +356,16 @@ try {
       rate('pwchange', 10, 900);
       if (!password_verify(str_in($in, 'current', 100), $acc['hash'])) authfail('bad', 401);
       $pw = str_in($in, 'password', 100); if ($p = pw_problem($pw)) authfail('pw_' . $p);
-      db()->prepare('UPDATE accounts SET hash = ?, updated = ? WHERE id = ?')->execute([password_hash($pw, PASSWORD_DEFAULT), now(), $acc['id']]);
+      $nh = password_hash($pw, PASSWORD_DEFAULT);
+      db()->prepare('UPDATE accounts SET hash = ?, updated = ? WHERE id = ?')->execute([$nh, now(), $acc['id']]);
       db()->prepare('DELETE FROM tokens WHERE uid = ?')->execute([$acc['id']]);
-      session_regenerate_id(true);
+      session_regenerate_id(true); $_SESSION['pwv'] = pwv(['hash' => $nh]);      // この端末はログインしたまま、ほかの端末はログアウト
       out(['ok' => true, 'csrf' => csrf()]);
     }
 
     /* ---- データ（ボード・注文・プロフィール・顧客管理） ---- */
     case 'doc_get': case 'doc_set': case 'doc_update': case 'doc_delete': {
-      $acc = current_account();
+      $acc = current_account(); if (!$acc) authfail('login', 401);       // ログインが切れている
       $path = str_in($in, 'path', 1000); $s = segs($path);
       if (count($s) % 2) fail('invalid_argument');
       $cur = doc_read($path); $exists = $cur !== null;
@@ -344,13 +375,23 @@ try {
       if ($op === 'delete') { db()->prepare('DELETE FROM docs WHERE path = ?')->execute([$path]); out(['ok' => true]); }
       $data = body_obj($in['data'] ?? null);
       if ($op === 'update') { if (!$exists) fail('invalid_argument', 404); $data = merge($cur, $data); body_obj($data); }
+      $isOrder = $s[0] === 'members' && ($s[2] ?? '') === 'orders' && count($s) === 4;
+      if (!is_admin($acc)) {
+        if ($isOrder && !$exists) {                 // お客さまの新しい注文：状況・日時・番号はサーバーで決める
+          $ms = now() * 1000;
+          $data['status'] = '受付'; $data['createdAt'] = $ms; $data['updatedAt'] = $ms; $data['log'] = [['s' => '受付', 'at' => $ms]];
+          $no = is_string($data['no'] ?? null) ? preg_replace('/[^A-Za-z0-9\-]/', '', $data['no']) : '';
+          $data['no'] = $no !== '' ? substr($no, 0, 20) : 'RS-' . date('ymd') . '-' . strtoupper(bin2hex(random_bytes(2)));
+        }
+        if (count($s) === 2) $data['email'] = $acc['email'];   // プロフィールのメールは、ログインに使うアドレスに固定
+      }
       doc_write($path, $s, $data, !$exists);
-      if ($op === 'set' && !$exists && $s[0] === 'members' && ($s[2] ?? '') === 'orders' && count($s) === 4) notify_order($acc, $s, $data);
+      if ($op === 'set' && !$exists && $isOrder) notify_order($acc, $s, $data);
       out(['ok' => true]);
     }
 
     case 'doc_list': {
-      $acc = current_account();
+      $acc = current_account(); if (!$acc) authfail('login', 401);
       $col = str_in($in, 'col', 1000); $s = segs($col);
       if (count($s) % 2 === 0) fail('invalid_argument');
       if (!can($s, $acc, 'list')) out(['docs' => []]);

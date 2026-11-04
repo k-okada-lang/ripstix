@@ -2766,7 +2766,7 @@ var ACCT=(function(){
   function digits(v){return String(v||'').normalize('NFKC').replace(/\D/g,'')}
   function spec(c){var t=TYPE_BY[c.type];return t.en+' · '+ftIn(c.L)+' × '+frac(c.W)+' × '+frac(c.T)+' · 約'+vol(c).toFixed(1)+'L'}
   function textFor(c){var keep=cfg;cfg=c;try{return orderText()}finally{cfg=keep}}
-  function errMsg(e){var c=e&&e.code;if(c==='invalid_argument')return '保存できませんでした。このページへの書き込み権限がない可能性があります（閲覧のみで共有されている場合など）。';
+  function errMsg(e){var c=e&&e.code;if(e&&e.auth==='login')return 'ログインの有効期限が切れました。もう一度ログインしてください。';if(c==='invalid_argument')return '保存できませんでした。このページへの書き込み権限がない可能性があります（閲覧のみで共有されている場合など）。';
     if(c==='quota_exceeded')return '保存容量の上限に達しました。不要なデータを削除してからお試しください。';
     if(c==='resource_exhausted')return '操作が集中しています。少し待ってからもう一度お試しください。';
     return '保存できませんでした。通信状況を確認して、もう一度お試しください。'}
@@ -2815,6 +2815,7 @@ var ACCT=(function(){
     return fetch(API+'?a='+a,opt).then(function(r){return r.json().catch(function(){return {error:'unavailable'}}).then(function(j){
       if(j&&j.csrf)srv.csrf=j.csrf;
       if(j&&j.error==='csrf'&&body&&!opt._retry){opt._retry=true;opt.headers['X-CSRF']=srv.csrf;return fetch(API+'?a='+a,opt).then(function(r2){return r2.json()}).then(function(j2){if(j2&&j2.error)throw j2.auth?{auth:j2.auth}:{code:'unavailable'};return j2})}
+      if(j&&j.auth==='login'&&/^doc_/.test(a)&&S.uid)setTimeout(sessionLost,0);   /* signed out elsewhere (e.g. password changed) */
       if(!r.ok||(j&&j.error))throw (j&&j.auth)?{auth:j.auth}:{code:(j&&j.error==='invalid_argument')?'invalid_argument':'unavailable'};
       return j})});
   }
@@ -2836,7 +2837,7 @@ var ACCT=(function(){
       /* opened as a local file: a demo kept in this browser. On a website: use api.php, never the demo (it would open the admin screen to everyone) */
       if(location.protocol==='file:'){demo();return}
       var to=new Promise(function(res,rej){setTimeout(function(){rej({code:'timeout'})},8000)});
-      Promise.race([call('me'),to]).then(function(j){done=true;S.mode='server';S.admin=!!(j.user&&j.user.admin);
+      Promise.race([call('me'),to]).then(function(j){done=true;S.mode='server';S.admin=!!(j.user&&j.user.admin);S.adminPending=!!(j.user&&j.user.admin_pending);
         return afterAuth(j.user?{uid:j.user.uid,email:j.user.email}:null)})
         .catch(function(){done=true;S.mode='off';S.admin=false;chrome();if(!ov.hidden)render()});
       return}
@@ -2898,7 +2899,7 @@ var ACCT=(function(){
     return 'acc-'+rid()}
   function signUp(email,pw){
     var em=normEmail(email);
-    if(S.mode==='server')return call('signup',{email:em,password:pw}).then(function(j){S.admin=!!j.user.admin;return {uid:j.user.uid,email:j.user.email}});
+    if(S.mode==='server')return call('signup',{email:em,password:pw}).then(function(j){S.admin=!!j.user.admin;S.adminPending=!!j.user.admin_pending;return {uid:j.user.uid,email:j.user.email}});
     return authRec(em).then(function(a){
       if(a.rec)throw AuthErr('exists');
       if(S.mode==='db'&&a.raw&&a.raw.email)throw AuthErr('hasOther:'+a.raw.email);
@@ -2911,7 +2912,7 @@ var ACCT=(function(){
   }
   function signIn(email,pw,remember){
     var em=normEmail(email);
-    if(S.mode==='server')return call('login',{email:em,password:pw,remember:!!remember}).then(function(j){S.admin=!!j.user.admin;return {uid:j.user.uid,email:j.user.email}});
+    if(S.mode==='server')return call('login',{email:em,password:pw,remember:!!remember}).then(function(j){S.admin=!!j.user.admin;S.adminPending=!!j.user.admin_pending;return {uid:j.user.uid,email:j.user.email}});
     return authRec(em).then(function(a){
       if(!a.rec)throw AuthErr('bad');var r=a.rec,now=Date.now();
       if(r.lockUntil>now)throw AuthErr('locked');
@@ -3200,7 +3201,9 @@ var ACCT=(function(){
         .catch(function(err){busy(f,false);fieldErr(f,'current',err&&err.auth==='bad'?'いまのパスワードが違います。':authMsg(err))});
     });
   }
-  function signOut(){sesClear();S.pending=null;S.view='login';(S.mode==='server'?call('logout',{}).catch(function(){}):Promise.resolve()).then(function(){if(S.mode==='server')S.admin=false;return afterAuth(null)}).then(function(){S.flash='ログアウトしました。';render();ov.scrollTop=0})}
+  function sessionLost(){if(!S.uid)return;sesClear();S.pending=null;S.view='login';S.admin=false;S.adminPending=false;
+    afterAuth(null).then(function(){S.flash='ログインの有効期限が切れたか、別の端末でパスワードが変更されました。もう一度ログインしてください。';render();ov.scrollTop=0})}
+  function signOut(){sesClear();S.pending=null;S.view='login';(S.mode==='server'?call('logout',{}).catch(function(){}):Promise.resolve()).then(function(){if(S.mode==='server'){S.admin=false;S.adminPending=false}return afterAuth(null)}).then(function(){S.flash='ログアウトしました。';render();ov.scrollTop=0})}
 
   /* -- my page -- */
   function stepsHtml(status){
@@ -3211,6 +3214,8 @@ var ACCT=(function(){
   function renderMypage(){
     var p=S.profile,tabs=[['boards','保存したボード',S.boards.length],['orders','注文履歴',S.orders.length],['profile','登録情報','']];
     var h=flash()+'<div class="ac-hello"><div><h3>'+esc(p.name)+' 様</h3><p>ログインID '+esc(S.email)+'　·　会員登録日 '+d8(p.createdAt)+'</p></div><div class="ac-acts" style="margin:0"><button type="button" class="btn" data-act="build">新しいボードを組む</button><button type="button" class="btn ghost" data-act="logout">ログアウト</button></div></div>'+
+      (S.mode==='server'&&S.adminPending?'<div class="ac-card ac-verify"><h4>管理者の確認</h4><p class="ac-meta">このメールアドレスは管理者として登録されています。'+esc(S.email)+' に届いた6桁の確認コードを入力すると、管理画面が使えるようになります。</p>'+
+        '<form id="acVerify" class="ac-mini" style="margin:0" novalidate><label>確認コード<input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456"></label><div class="ac-acts" style="margin:0"><button type="submit" class="btn">確認する</button><button type="button" class="btn ghost" data-act="vresend">コードを再送する</button></div><div class="ac-err" id="acVErr" aria-live="polite"></div></form></div>':'')+
       '<div class="ac-tabs" role="tablist">'+tabs.map(function(t){return '<button type="button" role="tab" data-tab="'+t[0]+'" aria-selected="'+(S.tab===t[0])+'">'+t[1]+(t[2]!==''?'<b>'+t[2]+'</b>':'')+'</button>'}).join('')+'</div>';
     if(S.tab==='boards'){
       h+=S.boards.length?'<div class="ac-grid">'+S.boards.map(function(b,i){return '<div class="ac-card ac-board">'+th(b.cfg)+'<div><h4>'+esc(b.name||TYPE_BY[b.cfg.type].en)+'</h4><div class="ac-meta">'+esc(spec(b.cfg))+'<br>保存日 '+d8(b.createdAt)+'</div>'+
@@ -3226,6 +3231,14 @@ var ACCT=(function(){
         '<div class="ac-acts"><button type="button" class="btn ghost" data-go="register">登録情報を変更する</button><button type="button" class="btn ghost" data-go="password">パスワードを変更する</button></div></div>';
     }
     body.innerHTML=h;
+    var vf=$('acVerify');
+    if(vf){vf.addEventListener('submit',function(e){e.preventDefault();var code=String(vf.elements.code.value).replace(/\D/g,'');
+        if(code.length!==6){$('acVErr').textContent='メールに届いた6桁の数字を入力してください。';return}
+        var b=vf.querySelector('[type=submit]');b.disabled=true;
+        call('verify_confirm',{code:code}).then(function(j){S.admin=!!j.user.admin;S.adminPending=!!j.user.admin_pending;chrome();S.flash='管理者として確認できました。メニューの「ADMIN」から管理画面を使えます。';render()})
+          .catch(function(err){b.disabled=false;var a=err&&err.auth;$('acVErr').textContent=a==='expired'?'確認コードの有効期限が切れました。「コードを再送する」を押してください。':a==='tries'?'入力ミスが多すぎます。「コードを再送する」で新しいコードを受け取ってください。':a==='rate'?'操作が多すぎます。しばらく待ってからお試しください。':'確認コードが正しくありません。'})});
+      vf.querySelector('[data-act=vresend]').addEventListener('click',function(e){var b=e.currentTarget;b.disabled=true;
+        call('verify_send',{}).then(function(){$('acVErr').textContent='確認コードを送りました。メールをご確認ください。'}).catch(function(err){$('acVErr').textContent=err&&err.auth==='wait'?'30秒ほど待ってから、もう一度お試しください。':'送信できませんでした。しばらく待ってからお試しください。'}).then(function(){setTimeout(function(){b.disabled=false},3000)})})}
   }
   function saveBoard(c){
     var id=rid(),t=TYPE_BY[c.type],data={name:t.en+' '+ftIn(c.L),cfg:c,createdAt:Date.now()};
@@ -3397,7 +3410,7 @@ var ACCT=(function(){
     ov.scrollTop=0;
   }
   function csv(){
-    var rows=filtered(),q=function(v){v=String(v==null?'':v);if(/^[=+\-@]/.test(v))v="'"+v;return '"'+v.replace(/"/g,'""')+'"'};
+    var rows=filtered(),q=function(v){v=String(v==null?'':v);if(/^[=+\-@\t\r]/.test(v))v="'"+v;return '"'+v.replace(/"/g,'""')+'"'};
     var lines=[['種別','お名前','フリガナ','電話番号','メール','住所','保存ボード数','注文数','最新の状況','最終更新','スタッフメモ'].map(q).join(',')];
     rows.forEach(function(r){var p=r.p||{},c=r.crm||{};lines.push([r.kind==='member'?'会員':'店頭',r.name,r.kana,r.phone,r.email,p.addr||c.addr||'',r.boards,r.orders,r.status,d8(r.at),c.memo||''].map(q).join(','))});
     var data='﻿'+lines.join('\r\n'),name='ripstix_customers_'+d8(Date.now()).replace(/\./g,'')+'.csv';
