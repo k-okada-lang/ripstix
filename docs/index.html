@@ -1057,7 +1057,7 @@ mark{background:#ffe7a3;color:inherit;border-radius:3px;padding:0 1px}
           <div class="group"><div class="gl">RIPSTIXの実例から</div><div class="presets" id="oPreset"></div></div>
           <div class="group"><div class="gl">Pattern<output id="oPatv"></output></div><div class="opts" id="oPat"></div></div>
           <div class="group"><div class="gl">塗る場所</div><div class="targets" id="oTarget"></div></div>
-          <div class="group spray-sw"><label class="toggle" for="sprayOn"><input type="checkbox" id="sprayOn" checked> エアブラシで塗る演出<small>オフにすると色がすぐに反映されます</small></label></div>
+          <div class="group spray-sw"><label class="toggle" for="sprayOn"><input type="checkbox" id="sprayOn"> エアブラシで塗る演出<small>オフにすると色がすぐに反映されます</small></label></div>
           <div class="group">
             <div class="sw" id="oSw"></div>
             <label class="picker" for="cPick">自由に選ぶ <input type="color" id="cPick" value="#ffffff"> <code id="cHex">#FFFFFF</code></label>
@@ -2338,7 +2338,7 @@ $('replayShape').addEventListener('click',function(){FX.last=JSON.stringify(cfg)
    in long, even, overlapping passes that start and finish off the board, in light coats that build up; fades are
    sprayed from the light side towards the dark side, pulling the gun back to feather; then the tape is peeled.
    With the switch off, colours apply instantly. */
-var SPRAY={on:!reduce,run:null};
+var SPRAY={on:false,run:null};   /* off unless the visitor switches it on */
 try{var _sp=localStorage.getItem('ripstix-spray');if(_sp==='0')SPRAY.on=false;else if(_sp==='1')SPRAY.on=true}catch(e){}
 var sprayHost=document.querySelector('.cf-canvas');
 var sprayPaint=document.createElement('canvas'),sprayMask=document.createElement('canvas'),sprayTop=document.createElement('canvas');
