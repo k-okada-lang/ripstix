@@ -812,7 +812,7 @@ mark{background:#ffe7a3;color:inherit;border-radius:3px;padding:0 1px}
   .menu-boards{height:130px}
   .wall{top:auto;height:46vh;bottom:calc(190px + env(safe-area-inset-bottom,0px))}
   .wall .bd{margin:0 -6vw}
-  .hero-word{font-size:34vw}
+  .hero-word{font-size:24vw;top:calc((var(--head) + 54vh - 190px) / 2);transform:translateY(-50%);color:rgba(238,243,240,.92);text-shadow:0 2px 18px rgba(0,0,0,.25)}
   .types{--slide:46vw}
   .ts-hint{display:none}
   .ts-word{top:calc(var(--head) + 70px);font-size:30vw}
