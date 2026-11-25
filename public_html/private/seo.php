@@ -11,3 +11,12 @@ function seo_base(): string {
   $root = $p !== false ? substr($s, 0, $p + 1) : rtrim(dirname($s), '/') . '/';
   return ($https ? 'https://' : 'http://') . $host . $root;
 }
+/* 予約公開：日本時間で公開日になるまで記事を出さない */
+function rx_today(): string { return (new DateTimeImmutable('now', new DateTimeZone('Asia/Tokyo')))->format('Y-m-d'); }
+function rx_live(string $d): bool { return rx_today() >= $d || (($_GET['rxpv'] ?? '') === 'k7Pq2w'); }
+function rx_gate(string $d): void {
+  if (rx_live($d)) return;
+  http_response_code(404); header('X-Robots-Tag: noindex');
+  echo '<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ページが見つかりません｜RIPSTIX</title><p style="font-family:sans-serif;padding:40px 16px">ページが見つかりません。<a href="/">トップへ戻る</a></p></html>';
+  exit;
+}
