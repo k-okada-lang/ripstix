@@ -5,7 +5,7 @@ $U = seo_base();
 $pages = ['', 'column/', 'column/custom-surfboard-order/', 'column/one-of-a-kind-surfboard/', 'column/unique-surfboards/', 'column/mid-length-surfboard/', 'column/how-to-choose-surfboard/', 'column/pu-vs-eps/', 'column/surfboard-tail-types/', 'column/surfboard-fin-setup/', 'column/surfboard-repair/', 'column/shirasuka-surf-guide/', 'column/shaper-vs-stock/', 'column/surfboard-care/', 'privacy.html'];
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-$dated = ['column/minamiboso-surfing/' => '2026-11-25', 'column/original-surfboard/' => '2026-11-26', 'column/chiba-south-surfing/' => '2026-11-27', 'column/ripstix-surfboard/' => '2026-12-03', 'column/splash-shirasuka/' => '2026-12-04', 'column/shaper-yoshida-masayuki/' => '2026-12-05', 'column/minamiboso-sightseeing/' => '2026-12-06', 'column/minamiboso-surf-trip/' => '2026-12-07'];
+$dated = ['column/minamiboso-surfing/' => '2026-11-25', 'column/original-surfboard/' => '2026-11-26', 'column/chiba-south-surfing/' => '2026-11-27', 'column/ripstix-surfboard/' => '2026-12-01', 'column/splash-shirasuka/' => '2026-12-02', 'column/shaper-yoshida-masayuki/' => '2026-12-03', 'column/minamiboso-sightseeing/' => '2026-12-04', 'column/minamiboso-surf-trip/' => '2026-12-05'];
 $latest = '2026-10-30';
 foreach ($dated as $p => $d) if (rx_today() >= $d) $latest = max($latest, $d);
 foreach ($pages as $p) {

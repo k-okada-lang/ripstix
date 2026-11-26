@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/../../private/seo.php'; rx_gate('2026-12-05'); $U = seo_base(); ?>
+<?php require __DIR__ . '/../../private/seo.php'; rx_gate('2026-12-03'); $U = seo_base(); ?>
 <!doctype html>
 <html lang="ja">
 <head>
@@ -23,8 +23,8 @@
   "@type": "Article",
   "headline": "シェイパー吉田正幸｜白渚の工房で RIPSTIX を削るつくり手と、ボードづくりの考え方",
   "description": "千葉・南房総の白渚ポイント目の前の SPLASH で、カスタムサーフボード RIPSTIX を削るシェイパー吉田正幸（よしだ まさゆき）。前身の R.I.P surfboard から続くボードづくり、オーダーで大切にしていること、修理への向き合い方、相談の仕方を紹介します。",
-  "datePublished": "2026-12-05",
-  "dateModified": "2026-12-05",
+  "datePublished": "2026-12-03",
+  "dateModified": "2026-12-03",
   "author": {
    "@type": "Organization",
    "name": "RIPSTIX / SPLASH（株式会社LTR）"
@@ -119,7 +119,7 @@
  }
 ]</script></head>
 <body>
-<header class="ch"><a class="logo" href="../../">RIPSTIX<small>BY SPLASH · SHIRASUKA</small></a><nav><a href="../../column/">コラム</a><a href="../../#repair">修理</a><a class="cta" href="../../#builder">ボードをつくる</a></nav></header><main class="cw"><nav class="crumbs" aria-label="パンくずリスト"><a href="../../">トップ</a> › <a href="../../column/">コラム</a> › <span>シェイパー吉田正幸</span></nav><article><p class="cat">人物</p><h1>シェイパー吉田正幸｜白渚の工房で RIPSTIX を削るつくり手と、ボードづくりの考え方</h1><p class="meta"><time datetime="2026-12-05">2026.12.05</time>　文・RIPSTIX / SPLASH</p><p class="lead">吉田正幸（よしだ まさゆき）は、千葉県南房総市和田町の白渚ポイントの目の前で、サーフショップ SPLASH とカスタムサーフボード RIPSTIX の工房を営むシェイパーです。株式会社LTR の代表取締役でもあります。どんな考え方でボードを削っているのか、どうやって相談すればいいのかを紹介します。</p><nav class="toc" aria-label="目次"><b>目次</b><ol><li><a href="#profile">吉田正幸のプロフィール</a></li><li><a href="#brand">R.I.P surfboard から RIPSTIX へ</a></li><li><a href="#shape">ボードづくりで大切にしていること</a></li><li><a href="#repair">直すのも、シェイパーの仕事</a></li><li><a href="#ask">吉田正幸にボードを相談するには</a></li></ol></nav><div class="body">
+<header class="ch"><a class="logo" href="../../">RIPSTIX<small>BY SPLASH · SHIRASUKA</small></a><nav><a href="../../column/">コラム</a><a href="../../#repair">修理</a><a class="cta" href="../../#builder">ボードをつくる</a></nav></header><main class="cw"><nav class="crumbs" aria-label="パンくずリスト"><a href="../../">トップ</a> › <a href="../../column/">コラム</a> › <span>シェイパー吉田正幸</span></nav><article><p class="cat">人物</p><h1>シェイパー吉田正幸｜白渚の工房で RIPSTIX を削るつくり手と、ボードづくりの考え方</h1><p class="meta"><time datetime="2026-12-03">2026.12.03</time>　文・RIPSTIX / SPLASH</p><p class="lead">吉田正幸（よしだ まさゆき）は、千葉県南房総市和田町の白渚ポイントの目の前で、サーフショップ SPLASH とカスタムサーフボード RIPSTIX の工房を営むシェイパーです。株式会社LTR の代表取締役でもあります。どんな考え方でボードを削っているのか、どうやって相談すればいいのかを紹介します。</p><nav class="toc" aria-label="目次"><b>目次</b><ol><li><a href="#profile">吉田正幸のプロフィール</a></li><li><a href="#brand">R.I.P surfboard から RIPSTIX へ</a></li><li><a href="#shape">ボードづくりで大切にしていること</a></li><li><a href="#repair">直すのも、シェイパーの仕事</a></li><li><a href="#ask">吉田正幸にボードを相談するには</a></li></ol></nav><div class="body">
 <h2 id="profile">吉田正幸のプロフィール</h2>
 <table class="tbl"><tbody>
 <tr><th>名前</th><td>吉田 正幸（よしだ まさゆき）</td></tr>

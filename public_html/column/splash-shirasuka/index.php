@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/../../private/seo.php'; rx_gate('2026-12-04'); $U = seo_base(); ?>
+<?php require __DIR__ . '/../../private/seo.php'; rx_gate('2026-12-02'); $U = seo_base(); ?>
 <!doctype html>
 <html lang="ja">
 <head>
@@ -23,8 +23,8 @@
   "@type": "Article",
   "headline": "SPLASH（スプラッシュ）白渚｜南房総・和田町のサーフショップとサーフステイ",
   "description": "千葉県南房総市和田町、白渚ポイント目の前のサーフショップ SPLASH（スプラッシュサーフ）。カスタムサーフボード RIPSTIX の製作・修理のほか、素泊まりのサーフステイ白渚、予約制のサーフスクール、ボードとウェットスーツのレンタルの内容と料金、アクセスを紹介します。",
-  "datePublished": "2026-12-04",
-  "dateModified": "2026-12-04",
+  "datePublished": "2026-12-02",
+  "dateModified": "2026-12-02",
   "author": {
    "@type": "Organization",
    "name": "RIPSTIX / SPLASH（株式会社LTR）"
@@ -105,7 +105,7 @@
  }
 ]</script></head>
 <body>
-<header class="ch"><a class="logo" href="../../">RIPSTIX<small>BY SPLASH · SHIRASUKA</small></a><nav><a href="../../column/">コラム</a><a href="../../#repair">修理</a><a class="cta" href="../../#builder">ボードをつくる</a></nav></header><main class="cw"><nav class="crumbs" aria-label="パンくずリスト"><a href="../../">トップ</a> › <a href="../../column/">コラム</a> › <span>SPLASH（スプラッシュ）白渚</span></nav><article><p class="cat">ショップ</p><h1>SPLASH（スプラッシュ）白渚｜南房総・和田町のサーフショップとサーフステイ</h1><p class="meta"><time datetime="2026-12-04">2026.12.04</time>　文・RIPSTIX / SPLASH</p><p class="lead">SPLASH（スプラッシュ）は、千葉県南房総市和田町の白渚（しらすか）ポイントの目の前にあるサーフショップです。1階がショップ、2階が宿泊できる「サーフステイ白渚」になっていて、カスタムサーフボード RIPSTIX の工房もあります。泊まって、習って、借りて、削って、直せる。SPLASH でできることをまとめました。</p><nav class="toc" aria-label="目次"><b>目次</b><ol><li><a href="#shop">SPLASH はどんなお店か</a></li><li><a href="#stay">サーフステイ白渚（宿泊）</a></li><li><a href="#school">サーフスクール</a></li><li><a href="#rental">レンタル</a></li><li><a href="#board">ボードの製作と修理</a></li><li><a href="#access">アクセス・営業時間</a></li></ol></nav><div class="body">
+<header class="ch"><a class="logo" href="../../">RIPSTIX<small>BY SPLASH · SHIRASUKA</small></a><nav><a href="../../column/">コラム</a><a href="../../#repair">修理</a><a class="cta" href="../../#builder">ボードをつくる</a></nav></header><main class="cw"><nav class="crumbs" aria-label="パンくずリスト"><a href="../../">トップ</a> › <a href="../../column/">コラム</a> › <span>SPLASH（スプラッシュ）白渚</span></nav><article><p class="cat">ショップ</p><h1>SPLASH（スプラッシュ）白渚｜南房総・和田町のサーフショップとサーフステイ</h1><p class="meta"><time datetime="2026-12-02">2026.12.02</time>　文・RIPSTIX / SPLASH</p><p class="lead">SPLASH（スプラッシュ）は、千葉県南房総市和田町の白渚（しらすか）ポイントの目の前にあるサーフショップです。1階がショップ、2階が宿泊できる「サーフステイ白渚」になっていて、カスタムサーフボード RIPSTIX の工房もあります。泊まって、習って、借りて、削って、直せる。SPLASH でできることをまとめました。</p><nav class="toc" aria-label="目次"><b>目次</b><ol><li><a href="#shop">SPLASH はどんなお店か</a></li><li><a href="#stay">サーフステイ白渚（宿泊）</a></li><li><a href="#school">サーフスクール</a></li><li><a href="#rental">レンタル</a></li><li><a href="#board">ボードの製作と修理</a></li><li><a href="#access">アクセス・営業時間</a></li></ol></nav><div class="body">
 <h2 id="shop">SPLASH はどんなお店か</h2>
 <p>SPLASH は、白渚ポイントの目の前に建つ2階建てのサーフショップです。店の前がそのままポイントなので、店先から波の様子を確かめられます。</p>
 <table class="tbl"><thead><tr><th>できること</th><th>内容</th></tr></thead><tbody>
@@ -116,7 +116,7 @@
 <tr><td>つくる</td><td>カスタムサーフボード RIPSTIX のオーダー</td></tr>
 <tr><td>直す</td><td>ディング・クラック・折れなどの修理。他ブランドのボードも相談可</td></tr>
 </tbody></table>
-<p>運営は株式会社LTR、店主はシェイパーの<?php if (rx_live('2026-12-05')): ?><a href="../../column/shaper-yoshida-masayuki/">吉田正幸</a><?php else: ?>吉田正幸<?php endif; ?>です。白渚の波のこと、その日に入れそうなポイントのこと、ボードのこと。気軽に声をかけてください。</p>
+<p>運営は株式会社LTR、店主はシェイパーの<?php if (rx_live('2026-12-03')): ?><a href="../../column/shaper-yoshida-masayuki/">吉田正幸</a><?php else: ?>吉田正幸<?php endif; ?>です。白渚の波のこと、その日に入れそうなポイントのこと、ボードのこと。気軽に声をかけてください。</p>
 
 <h2 id="stay">サーフステイ白渚（宿泊）</h2>
 <p>SPLASH の2階は、サーフィンをする人のための宿「サーフステイ白渚」です。全室の窓から白渚の波を見られるので、朝起きてすぐに海の様子を確かめられます。</p>
@@ -126,7 +126,7 @@
 <tr><td>設備</td><td>テレビ、シャワールーム2室、BBQセットのレンタル（有料）</td></tr>
 <tr><td>宿泊者の特典</td><td>駐車場と、サーフィン後に使える温水シャワーが無料</td></tr>
 </tbody></table>
-<p>食事はついていないので、近くの食事処や道の駅を利用するか、BBQセットを借りて楽しんでください。周辺の過ごし方は<?php if (rx_live('2026-12-06')): ?><a href="../../column/minamiboso-sightseeing/">南房総観光ガイド</a><?php else: ?>南房総観光ガイド<?php endif; ?>、泊まりでの楽しみ方は<?php if (rx_live('2026-12-07')): ?><a href="../../column/minamiboso-surf-trip/">南房総サーフトリップ1泊2日モデルプラン</a><?php else: ?>南房総サーフトリップ1泊2日モデルプラン<?php endif; ?>で紹介しています。</p>
+<p>食事はついていないので、近くの食事処や道の駅を利用するか、BBQセットを借りて楽しんでください。周辺の過ごし方は<?php if (rx_live('2026-12-04')): ?><a href="../../column/minamiboso-sightseeing/">南房総観光ガイド</a><?php else: ?>南房総観光ガイド<?php endif; ?>、泊まりでの楽しみ方は<?php if (rx_live('2026-12-05')): ?><a href="../../column/minamiboso-surf-trip/">南房総サーフトリップ1泊2日モデルプラン</a><?php else: ?>南房総サーフトリップ1泊2日モデルプラン<?php endif; ?>で紹介しています。</p>
 
 <h2 id="school">サーフスクール</h2>
 <p>SPLASH では、予約制のサーフスクールを開いています。</p>
@@ -160,6 +160,6 @@
 <tr><th>駐車場</th><td>店の目の前に白渚の駐車場あり。宿泊のお客さまは無料</td></tr>
 </tbody></table>
 <p class="note">※ 料金・営業時間・定休日は、季節や波・大会の予定で変わる場合があります。遠方からお越しの際や、宿泊・スクールのご予約は、事前にお電話でご確認ください。白渚の波の特徴は<a href="../../column/shirasuka-surf-guide/">白渚のサーフポイントガイド</a>で紹介しています。</p>
-</div><section class="faq" id="faq"><h2>よくある質問</h2><details><summary>SPLASH には泊まれますか？</summary><p>泊まれます。2階のサーフステイ白渚は素泊まりで、1人1泊3,500円（税別）です。2名部屋と3名部屋が2室ずつあり、全室から白渚の波を見られます。ご予約はお電話（0470-47-4334）でどうぞ。</p></details><details><summary>サーフィンがはじめてでもスクールに参加できますか？</summary><p>参加できます。予約制で、2時間6,000円です。ボードとウェットスーツのレンタル料が含まれているので、手ぶらで来ていただけます。</p></details><details><summary>ボードやウェットスーツは借りられますか？</summary><p>借りられます。ショートボード、ファンボード、スポンジボード、各種ウェットスーツを、1日3,000円でレンタルしています。</p></details><details><summary>SPLASH の定休日はいつですか？</summary><p>火曜日です。営業時間は9:00〜18:00ですが、季節や波・大会の予定で変わる場合があるため、遠方からお越しの際は事前にお電話でご確認ください。</p></details></section></article><aside class="cta-box"><b>白渚で、泊まって、乗って、つくる。</b><p>SPLASH は白渚ポイントの目の前。宿泊・スクール・レンタルのご予約、カスタムボードや修理のご相談は、お電話か Instagram でどうぞ。</p><div><a class="btn" href="../../#builder">3Dでボードを組んでみる</a><a class="btn ghost" href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram で相談</a><a class="btn ghost" href="../../#access">アクセス・営業時間</a></div></aside><section class="rel"><h2>あわせて読みたい</h2><ul><li><a href="../../column/ripstix-surfboard/"><span>ブランド</span>RIPSTIX（リップスティックス）とは</a></li><li><a href="../../column/shirasuka-surf-guide/"><span>ポイント</span>南房総・白渚のサーフポイントガイド</a></li><?php if (rx_live('2026-12-07')): ?><li><a href="../../column/minamiboso-surf-trip/"><span>旅</span>南房総サーフトリップ1泊2日モデルプラン</a></li><?php endif; ?><li><a href="../../column/surfboard-repair/"><span>修理</span>サーフボード修理（リペア）ガイド</a></li></ul></section></main><footer class="cf"><div><b>RIPSTIX / SPLASH</b><p>千葉県南房総市和田町白渚586-2（白渚ポイント目の前）<br>TEL 0470-47-4334　運営：株式会社LTR</p></div><nav><a href="../../">トップ</a><a href="../../column/">コラム一覧</a><a href="../../#access">アクセス</a><a href="../../privacy.html">プライバシーポリシー</a><a href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram</a></nav><small>© RIPSTIX / SPLASH</small></footer>
+</div><section class="faq" id="faq"><h2>よくある質問</h2><details><summary>SPLASH には泊まれますか？</summary><p>泊まれます。2階のサーフステイ白渚は素泊まりで、1人1泊3,500円（税別）です。2名部屋と3名部屋が2室ずつあり、全室から白渚の波を見られます。ご予約はお電話（0470-47-4334）でどうぞ。</p></details><details><summary>サーフィンがはじめてでもスクールに参加できますか？</summary><p>参加できます。予約制で、2時間6,000円です。ボードとウェットスーツのレンタル料が含まれているので、手ぶらで来ていただけます。</p></details><details><summary>ボードやウェットスーツは借りられますか？</summary><p>借りられます。ショートボード、ファンボード、スポンジボード、各種ウェットスーツを、1日3,000円でレンタルしています。</p></details><details><summary>SPLASH の定休日はいつですか？</summary><p>火曜日です。営業時間は9:00〜18:00ですが、季節や波・大会の予定で変わる場合があるため、遠方からお越しの際は事前にお電話でご確認ください。</p></details></section></article><aside class="cta-box"><b>白渚で、泊まって、乗って、つくる。</b><p>SPLASH は白渚ポイントの目の前。宿泊・スクール・レンタルのご予約、カスタムボードや修理のご相談は、お電話か Instagram でどうぞ。</p><div><a class="btn" href="../../#builder">3Dでボードを組んでみる</a><a class="btn ghost" href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram で相談</a><a class="btn ghost" href="../../#access">アクセス・営業時間</a></div></aside><section class="rel"><h2>あわせて読みたい</h2><ul><li><a href="../../column/ripstix-surfboard/"><span>ブランド</span>RIPSTIX（リップスティックス）とは</a></li><li><a href="../../column/shirasuka-surf-guide/"><span>ポイント</span>南房総・白渚のサーフポイントガイド</a></li><?php if (rx_live('2026-12-05')): ?><li><a href="../../column/minamiboso-surf-trip/"><span>旅</span>南房総サーフトリップ1泊2日モデルプラン</a></li><?php endif; ?><li><a href="../../column/surfboard-repair/"><span>修理</span>サーフボード修理（リペア）ガイド</a></li></ul></section></main><footer class="cf"><div><b>RIPSTIX / SPLASH</b><p>千葉県南房総市和田町白渚586-2（白渚ポイント目の前）<br>TEL 0470-47-4334　運営：株式会社LTR</p></div><nav><a href="../../">トップ</a><a href="../../column/">コラム一覧</a><a href="../../#access">アクセス</a><a href="../../privacy.html">プライバシーポリシー</a><a href="https://www.instagram.com/ripstix.surfboard.splash/" target="_blank" rel="noopener">Instagram</a></nav><small>© RIPSTIX / SPLASH</small></footer>
 </body>
 </html>

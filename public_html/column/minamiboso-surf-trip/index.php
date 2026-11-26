@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/../../private/seo.php'; rx_gate('2026-12-07'); $U = seo_base(); ?>
+<?php require __DIR__ . '/../../private/seo.php'; rx_gate('2026-12-05'); $U = seo_base(); ?>
 <!doctype html>
 <html lang="ja">
 <head>
@@ -23,8 +23,8 @@
   "@type": "Article",
   "headline": "南房総サーフトリップ1泊2日モデルプラン｜白渚に泊まって、波と観光を楽しむ",
   "description": "千葉・南房総へのサーフトリップを1泊2日で楽しむモデルプラン。白渚ポイント目の前の素泊まり宿に泊まって朝夕2回波に乗る過ごし方、波がない日の観光の組み立て方、持ち物リスト、季節ごとのウェットスーツの目安を、地元のサーフショップ SPLASH が紹介します。",
-  "datePublished": "2026-12-07",
-  "dateModified": "2026-12-07",
+  "datePublished": "2026-12-05",
+  "dateModified": "2026-12-05",
   "author": {
    "@type": "Organization",
    "name": "RIPSTIX / SPLASH（株式会社LTR）"
@@ -97,7 +97,7 @@
  }
 ]</script></head>
 <body>
-<header class="ch"><a class="logo" href="../../">RIPSTIX<small>BY SPLASH · SHIRASUKA</small></a><nav><a href="../../column/">コラム</a><a href="../../#repair">修理</a><a class="cta" href="../../#builder">ボードをつくる</a></nav></header><main class="cw"><nav class="crumbs" aria-label="パンくずリスト"><a href="../../">トップ</a> › <a href="../../column/">コラム</a> › <span>南房総サーフトリップ1泊2日</span></nav><article><p class="cat">旅</p><h1>南房総サーフトリップ1泊2日モデルプラン｜白渚に泊まって、波と観光を楽しむ</h1><p class="meta"><time datetime="2026-12-07">2026.12.07</time>　文・RIPSTIX / SPLASH</p><p class="lead">都心から車でおおよそ2時間前後で行ける南房総は、週末のサーフトリップにちょうどいい距離です。日帰りでも楽しめますが、泊まれば「夕方の波」と「翌朝いちばんの波」の両方に乗れます。白渚ポイントの目の前でサーフショップと宿を営むわたしたちが、1泊2日のモデルプランを紹介します。</p><nav class="toc" aria-label="目次"><b>目次</b><ol><li><a href="#why">泊まりで行くと何がいいか</a></li><li><a href="#plan">1泊2日のモデルプラン</a></li><li><a href="#flat">波がない日のプラン</a></li><li><a href="#stay">泊まる場所の選び方</a></li><li><a href="#items">持ち物リスト</a></li><li><a href="#season">季節とウェットスーツの目安</a></li><li><a href="#manner">気持ちよく過ごすために</a></li></ol></nav><div class="body">
+<header class="ch"><a class="logo" href="../../">RIPSTIX<small>BY SPLASH · SHIRASUKA</small></a><nav><a href="../../column/">コラム</a><a href="../../#repair">修理</a><a class="cta" href="../../#builder">ボードをつくる</a></nav></header><main class="cw"><nav class="crumbs" aria-label="パンくずリスト"><a href="../../">トップ</a> › <a href="../../column/">コラム</a> › <span>南房総サーフトリップ1泊2日</span></nav><article><p class="cat">旅</p><h1>南房総サーフトリップ1泊2日モデルプラン｜白渚に泊まって、波と観光を楽しむ</h1><p class="meta"><time datetime="2026-12-05">2026.12.05</time>　文・RIPSTIX / SPLASH</p><p class="lead">都心から車でおおよそ2時間前後で行ける南房総は、週末のサーフトリップにちょうどいい距離です。日帰りでも楽しめますが、泊まれば「夕方の波」と「翌朝いちばんの波」の両方に乗れます。白渚ポイントの目の前でサーフショップと宿を営むわたしたちが、1泊2日のモデルプランを紹介します。</p><nav class="toc" aria-label="目次"><b>目次</b><ol><li><a href="#why">泊まりで行くと何がいいか</a></li><li><a href="#plan">1泊2日のモデルプラン</a></li><li><a href="#flat">波がない日のプラン</a></li><li><a href="#stay">泊まる場所の選び方</a></li><li><a href="#items">持ち物リスト</a></li><li><a href="#season">季節とウェットスーツの目安</a></li><li><a href="#manner">気持ちよく過ごすために</a></li></ol></nav><div class="body">
 <h2 id="why">泊まりで行くと何がいいか</h2>
 <ul>
 <li><b>朝いちばんの波に乗れる</b>：風が弱く、波の形が整いやすい早朝に、移動の疲れなしで海に入れます。</li>
