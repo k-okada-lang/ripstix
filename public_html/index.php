@@ -880,7 +880,7 @@ mark{background:#ffe7a3;color:inherit;border-radius:3px;padding:0 1px}
       <li><a href="#feed"><b>INSTAGRAM</b><small>最新の作品</small></a></li>
       <li><button type="button" data-acct="mypage"><b>MY PAGE</b><small>ログイン・会員登録・注文履歴</small></button></li>
       <li id="mAdmin" hidden><button type="button" data-acct="admin"><b>ADMIN</b><small>管理画面・顧客管理</small></button></li>
-      <li><a href="#column"><b>COLUMN</b><small>サーフボードのコラム・よくある質問</small></a></li>
+      <li><a href="column/"><b>COLUMN</b><small>サーフボードのコラム一覧</small></a></li>
       <li><a href="#access"><b>ACCESS</b><small>アクセス・営業時間</small></a></li>
       <li><a href="#shop"><b>SHOP</b><small>SPLASH 白渚</small></a></li>
       <li><a href="#company"><b>COMPANY</b><small>会社概要</small></a></li>
@@ -1302,7 +1302,7 @@ mark{background:#ffe7a3;color:inherit;border-radius:3px;padding:0 1px}
       <div class="col-head"><div><div class="eyebrow">Column</div><h2>BOARD NOTES</h2></div>
       <p>カスタムサーフボードの頼み方、世界に一つだけのデザイン、ユニークなボードの選び方、修理のこと。白渚のシェイパーズショップが、サーフボードのことをわかりやすくまとめました。</p></div>
       <ul class="col-cards"><li><a href="column/custom-surfboard-order/"><span class="cat">カスタムオーダー</span><b>カスタムサーフボードのオーダー完全ガイド</b></a></li><li><a href="column/one-of-a-kind-surfboard/"><span class="cat">デザイン</span><b>世界に一つだけのサーフボードのつくり方</b></a></li><li><a href="column/unique-surfboards/"><span class="cat">ボードの種類</span><b>ユニークなサーフボード図鑑</b></a></li><li><a href="column/mid-length-surfboard/"><span class="cat">ボードの種類</span><b>ミッドレングスの魅力と選び方</b></a></li><li><a href="column/how-to-choose-surfboard/"><span class="cat">選び方</span><b>サーフボードの選び方（サイズとボリューム）</b></a></li><li><a href="column/surfboard-repair/"><span class="cat">修理</span><b>サーフボード修理（リペア）ガイド</b></a></li></ul>
-      <a class="col-all" href="column/">すべてのコラムを見る（12本）</a>
+      <a class="col-all" href="column/">すべてのコラムを見る（15本）</a>
       <div class="home-faq" id="faq"><h3>よくある質問</h3><details><summary>カスタムサーフボードはどうやって頼めばいいですか？</summary><p>お店で直接、または Instagram の DM でご相談ください。身長・体重、サーフィン歴、よく行くポイント、今のボードを教えていただければ、シェイパーが一緒に仕様を決めます。サイト内のカスタム画面で作ったオーダーシートを見せていただくと、話がスムーズです。</p></details><details><summary>初心者でもカスタムボードを作れますか？</summary><p>作れます。体重やレベルに合った浮力・長さで作れるので、初心者や中級者ほどメリットがあります。</p></details><details><summary>世界に一つだけのデザインにできますか？</summary><p>できます。カラーは一本ずつの手仕事のため、同じ柄は二度とできません。ロゴの位置や色も選べます。仕上がりは気温・湿度・塗りの回数・クロスの質で変わるため、画面と完全に同じにはならない点はご了承ください。</p></details><details><summary>価格と納期はどのくらいですか？</summary><p>モデル、サイズ、素材、カラーなどの仕様によって変わります。ご希望をうかがったうえでご案内します。</p></details><details><summary>サーフボードの修理もできますか？</summary><p>できます。ディング（凹み・穴）、クラック（割れ）、折れ、フィンボックス・プラグ、デラミ、リーシュカップなどの修理を受け付けています。RIPSTIX 以外のボードもまずはご相談ください。</p></details><details><summary>お店はどこにありますか？</summary><p>千葉県南房総市和田町白渚586-2、白渚ポイントの目の前です。富津館山道路「富浦IC」から車で約20分、JR内房線「和田浦」駅から徒歩約25分です。</p></details></div>
     </div>
   </section>
@@ -2739,7 +2739,7 @@ menu.addEventListener('click',function(e){
   if(!a)return;e.preventDefault();
   var t=document.querySelector(a.getAttribute('href'));
   /* scroll only after the menu's history entry is gone, so the history step can't interrupt it */
-  closeMenu(false,function(){if(!t)return;var y=t.getBoundingClientRect().top+window.scrollY;window.scrollTo({top:y,behavior:reduce?'auto':'smooth'})});
+  closeMenu(false,function(){if(!t)return;requestAnimationFrame(function(){var y=t.getBoundingClientRect().top+window.scrollY;window.scrollTo({top:y,behavior:reduce?'auto':'smooth'});var fix=function(){if(Math.abs(t.getBoundingClientRect().top)>8)window.scrollTo(0,t.getBoundingClientRect().top+window.scrollY)};setTimeout(fix,900);setTimeout(fix,1800)})});
 });
 
 if(location.hash==='#builder')setTimeout(function(){openCustom(null)},0);else{clearHash('nav');clearHash('acct')}
